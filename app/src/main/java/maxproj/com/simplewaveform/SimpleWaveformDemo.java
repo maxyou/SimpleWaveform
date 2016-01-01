@@ -18,9 +18,10 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
         simpleWaveform = (SimpleWaveform)findViewById(R.id.simplewaveform);
         for(int i = 0; i < 200; i++){
-            ampList.add(randInt(0, 1000));
+            ampList.add(randInt(0, 100));
         }
         simpleWaveform.setDataList(ampList);
+        simpleWaveform.heightMode = SimpleWaveform.HEIGHT_MODE_PERCENT;
         simpleWaveform.refresh();
 
     }
