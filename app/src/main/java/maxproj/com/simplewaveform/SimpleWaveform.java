@@ -17,9 +17,20 @@ import java.util.LinkedList;
 public class SimpleWaveform extends View {
     Context context;
 
-    public int heightMode;
+    public final static int DATA_MODE_REAL = 1;
+    public final static int DATA_MODE_ABSOLUTE = 2;
+    public int dataMode = DATA_MODE_ABSOLUTE;
     public final static int HEIGHT_MODE_PX = 1;
     public final static int HEIGHT_MODE_PERCENT = 2;
+    public int heightMode = HEIGHT_MODE_PERCENT;
+    public final static int ZERO_MODE_TOP = 1;
+    public final static int ZERO_MODE_CENTER = 2;
+    public final static int ZERO_MODE_BOTTOM = 3;
+    public final static int ZERO_MODE_USR_DEFINE = 4;
+    public int zeroMode = ZERO_MODE_CENTER;
+    public final static int HEIGHT_MODE_BAR = 1;
+    public final static int HEIGHT_MODE_PEER = 2;
+    public int shapeMode = HEIGHT_MODE_BAR;
 
     public int height;
     public int width;
@@ -28,11 +39,13 @@ public class SimpleWaveform extends View {
     public int barGap = 10;
     public int barColorWithMask = 0xff901f5f;
     public LinkedList<Integer> dataList = new LinkedList<Integer>();
+    private LinkedList<Integer> innerDataList = new LinkedList<Integer>();
 
     boolean clearScreen = false;
 
     Paint mForeground = new Paint();
     private float[] mPoints;
+    public int barNum;
 
 
     public int dp2Px(float dp) {
@@ -134,13 +147,48 @@ public class SimpleWaveform extends View {
         mForeground.setColor(barColorWithMask);
         mForeground.setAntiAlias(false);
 
-        /**
-         * 画前面所有竖线
-         */
 
-        mPoints = new float[dataList.size() * 4];
-        for (int i = 0; i < dataList.size(); i++) {
-            float barHeight = calculateBarHeight(dataList.get(i));
+        barNum = (width / (barWidth + barGap)) + 1;
+        if(barNum > dataList.size()){
+            barNum = dataList.size();
+        }
+
+        for (int i = 0; i < barNum; i++) {
+            innerDataList.addLast(dataList.get(i));
+        }
+
+        if(dataMode == DATA_MODE_ABSOLUTE){
+            for (int i = 0; i < barNum; i++) {
+                innerDataList.set(i, (Math.abs(innerDataList.get(i))));
+            }
+        }
+
+        if(heightMode == HEIGHT_MODE_PERCENT){
+            for (int i = 0; i < barNum; i++) {
+                innerDataList.set(i, (innerDataList.get(i) * height) / 100);
+            }
+        }
+
+        switch (zeroMode){
+            case ZERO_MODE_TOP:
+                break;
+            case ZERO_MODE_CENTER:
+                for (int i = 0; i < barNum; i++) {
+                    innerDataList.set(i, innerDataList.get(i) + height / 2);
+                }
+                break;
+            case ZERO_MODE_BOTTOM:
+                for (int i = 0; i < barNum; i++) {
+                    innerDataList.set(i, innerDataList.get(i) + height);
+                }
+                break;
+            case ZERO_MODE_USR_DEFINE:
+                break;
+        }
+
+        mPoints = new float[barNum * 4];
+        for (int i = 0; i < barNum; i++) {
+            float barHeight = calculateBarHeight(innerDataList.get(i));
             mPoints[i * 4] = i * (barWidth + barGap);
             mPoints[i * 4 + 1] = (height - barHeight) / 2;
             mPoints[i * 4 + 2] = i * (barWidth + barGap);
