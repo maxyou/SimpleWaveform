@@ -18,13 +18,13 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
         simpleWaveform = (SimpleWaveform)findViewById(R.id.simplewaveform);
         for(int i = 0; i < 80; i++){
-            ampList.add(randInt(0, 50));
+            ampList.add(randInt(-50, 50));
         }
         simpleWaveform.setDataList(ampList);
-        simpleWaveform.dataMode = SimpleWaveform.DATA_MODE_ABSOLUTE;
-        simpleWaveform.heightMode = SimpleWaveform.HEIGHT_MODE_PERCENT;
-        simpleWaveform.zeroMode = SimpleWaveform.ZERO_MODE_CENTER;
-        simpleWaveform.paintMode = SimpleWaveform.PAINT_MODE_BAR;
+        simpleWaveform.modeAmp = SimpleWaveform.MODE_AMP_REAL;
+        simpleWaveform.modeHeight = SimpleWaveform.MODE_HEIGHT_PERCENT;
+        simpleWaveform.modeZero = SimpleWaveform.MODE_ZERO_CENTER;
+        simpleWaveform.modePaint = SimpleWaveform.MODE_PAINT_BAR;
         simpleWaveform.refresh();
 
     }

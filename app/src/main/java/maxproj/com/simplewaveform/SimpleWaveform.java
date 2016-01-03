@@ -17,20 +17,20 @@ import java.util.LinkedList;
 public class SimpleWaveform extends View {
     Context context;
 
-    public final static int DATA_MODE_REAL = 1;
-    public final static int DATA_MODE_ABSOLUTE = 2;
-    public int dataMode = DATA_MODE_ABSOLUTE;
-    public final static int HEIGHT_MODE_PX = 1;
-    public final static int HEIGHT_MODE_PERCENT = 2;
-    public int heightMode = HEIGHT_MODE_PERCENT;
-    public final static int ZERO_MODE_TOP = 1;
-    public final static int ZERO_MODE_CENTER = 2;
-    public final static int ZERO_MODE_BOTTOM = 3;
-    public final static int ZERO_MODE_USR_DEFINE = 4;
-    public int zeroMode = ZERO_MODE_CENTER;
-    public final static int PAINT_MODE_BAR = 1;
-    public final static int PAINT_MODE_PEER = 2;
-    public int paintMode = PAINT_MODE_BAR;
+    public final static int MODE_AMP_REAL = 1;
+    public final static int MODE_AMP_ABS = 2;
+    public int modeAmp = MODE_AMP_ABS;
+    public final static int MODE_HEIGHT_PX = 1;
+    public final static int MODE_HEIGHT_PERCENT = 2;
+    public int modeHeight = MODE_HEIGHT_PERCENT;
+    public final static int MODE_ZERO_TOP = 1;
+    public final static int MODE_ZERO_CENTER = 2;
+    public final static int MODE_ZERO_BOTTOM = 3;
+    public final static int MODE_ZERO_USR_DEFINE = 4;
+    public int modeZero = MODE_ZERO_CENTER;
+    public final static int MODE_PAINT_BAR = 1;
+    public final static int MODE_PAINT_PEER = 2;
+    public int modePaint = MODE_PAINT_BAR;
 
     public int height;
     public int width;
@@ -151,13 +151,13 @@ public class SimpleWaveform extends View {
         for (int i = 0; i < barNum; i++) {
 
             BarPoints barPoints = new BarPoints(dataList.get(i));
-            if(heightMode == HEIGHT_MODE_PERCENT) {
+            if(modeHeight == MODE_HEIGHT_PERCENT) {
                 barPoints.amplitudePx = (barPoints.amplitude * height) / 100;
             }else{
                 barPoints.amplitudePx = barPoints.amplitude;
             }
 
-            if(dataMode == DATA_MODE_ABSOLUTE){
+            if(modeAmp == MODE_AMP_ABS){
                 if(barPoints.amplitudePx > 0) {
                     barPoints.amplitudePxTop = barPoints.amplitudePx;
                     barPoints.amplitudePxBottom = -barPoints.amplitudePx;
@@ -171,25 +171,25 @@ public class SimpleWaveform extends View {
                     barPoints.amplitudePxBottom = 0;
                 }else{
                     barPoints.amplitudePxTop = 0;
-                    barPoints.amplitudePxBottom = -barPoints.amplitudePx;
+                    barPoints.amplitudePxBottom = barPoints.amplitudePx;
                 }
             }
 
 
-            switch (zeroMode){
-                case ZERO_MODE_TOP:
+            switch (modeZero){
+                case MODE_ZERO_TOP:
                     barPoints.amplitudePxTopAbs = -barPoints.amplitudePxTop;
                     barPoints.amplitudePxBottomAbs = -barPoints.amplitudePxBottom;
                     break;
-                case ZERO_MODE_CENTER:
+                case MODE_ZERO_CENTER:
                     barPoints.amplitudePxTopAbs = -barPoints.amplitudePxTop + height / 2;
                     barPoints.amplitudePxBottomAbs = -barPoints.amplitudePxBottom + height / 2;
                     break;
-                case ZERO_MODE_BOTTOM:
+                case MODE_ZERO_BOTTOM:
                     barPoints.amplitudePxTopAbs = -barPoints.amplitudePxTop + height;
                     barPoints.amplitudePxBottomAbs = -barPoints.amplitudePxBottom + height;
                     break;
-                case ZERO_MODE_USR_DEFINE:
+                case MODE_ZERO_USR_DEFINE:
                     break;
             }
             innerDataList.addLast(barPoints);
