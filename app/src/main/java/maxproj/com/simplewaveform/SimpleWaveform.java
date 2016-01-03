@@ -28,9 +28,9 @@ public class SimpleWaveform extends View {
     public final static int ZERO_MODE_BOTTOM = 3;
     public final static int ZERO_MODE_USR_DEFINE = 4;
     public int zeroMode = ZERO_MODE_CENTER;
-    public final static int HEIGHT_MODE_BAR = 1;
-    public final static int HEIGHT_MODE_PEER = 2;
-    public int shapeMode = HEIGHT_MODE_BAR;
+    public final static int PAINT_MODE_BAR = 1;
+    public final static int PAINT_MODE_PEER = 2;
+    public int paintMode = PAINT_MODE_BAR;
 
     public int height;
     public int width;
@@ -39,7 +39,20 @@ public class SimpleWaveform extends View {
     public int barGap = 10;
     public int barColorWithMask = 0xff901f5f;
     public LinkedList<Integer> dataList = new LinkedList<Integer>();
-    private LinkedList<Integer> innerDataList = new LinkedList<Integer>();
+    private LinkedList<BarPoints> innerDataList = new LinkedList<BarPoints>();
+
+    class BarPoints{
+        int amplitude;
+        int amplitudePx;
+        int amplitudePxTop;
+        int amplitudePxBottom;
+        int amplitudePxTopAbs;
+        int amplitudePxBottomAbs;
+
+        public BarPoints(int amplitude){
+            this.amplitude = amplitude;
+        }
+    }
 
     boolean clearScreen = false;
 
@@ -119,29 +132,10 @@ public class SimpleWaveform extends View {
 
     }
 
-    private float calculateBarHeight(int input){
-
-        float barInPx;
-
-        switch (heightMode){
-            case HEIGHT_MODE_PERCENT:
-                barInPx = (input * height) / 100;
-                break;
-            case HEIGHT_MODE_PX:
-                barInPx = input;
-                break;
-            default:
-                barInPx = 0;
-        }
-
-        return barInPx;
-    }
-
     public void drawWaveList(Canvas canvas) {
         if (canvas == null) {
             return;
         }
-
 
         mForeground.setStrokeWidth(barWidth);//这里设置信号柱的宽度
         mForeground.setColor(barColorWithMask);
@@ -152,48 +146,61 @@ public class SimpleWaveform extends View {
         if(barNum > dataList.size()){
             barNum = dataList.size();
         }
-
-        for (int i = 0; i < barNum; i++) {
-            innerDataList.addLast(dataList.get(i));
-        }
-
-        if(dataMode == DATA_MODE_ABSOLUTE){
-            for (int i = 0; i < barNum; i++) {
-                innerDataList.set(i, (Math.abs(innerDataList.get(i))));
-            }
-        }
-
-        if(heightMode == HEIGHT_MODE_PERCENT){
-            for (int i = 0; i < barNum; i++) {
-                innerDataList.set(i, (innerDataList.get(i) * height) / 100);
-            }
-        }
-
-        switch (zeroMode){
-            case ZERO_MODE_TOP:
-                break;
-            case ZERO_MODE_CENTER:
-                for (int i = 0; i < barNum; i++) {
-                    innerDataList.set(i, innerDataList.get(i) + height / 2);
-                }
-                break;
-            case ZERO_MODE_BOTTOM:
-                for (int i = 0; i < barNum; i++) {
-                    innerDataList.set(i, innerDataList.get(i) + height);
-                }
-                break;
-            case ZERO_MODE_USR_DEFINE:
-                break;
-        }
-
         mPoints = new float[barNum * 4];
+
         for (int i = 0; i < barNum; i++) {
-            float barHeight = calculateBarHeight(innerDataList.get(i));
+
+            BarPoints barPoints = new BarPoints(dataList.get(i));
+            if(heightMode == HEIGHT_MODE_PERCENT) {
+                barPoints.amplitudePx = (barPoints.amplitude * height) / 100;
+            }else{
+                barPoints.amplitudePx = barPoints.amplitude;
+            }
+
+            if(dataMode == DATA_MODE_ABSOLUTE){
+                if(barPoints.amplitudePx > 0) {
+                    barPoints.amplitudePxTop = barPoints.amplitudePx;
+                    barPoints.amplitudePxBottom = -barPoints.amplitudePx;
+                }else{
+                    barPoints.amplitudePxTop = -barPoints.amplitudePx;
+                    barPoints.amplitudePxBottom = barPoints.amplitudePx;
+                }
+            }else{
+                if(barPoints.amplitudePx > 0) {
+                    barPoints.amplitudePxTop = barPoints.amplitudePx;
+                    barPoints.amplitudePxBottom = 0;
+                }else{
+                    barPoints.amplitudePxTop = 0;
+                    barPoints.amplitudePxBottom = -barPoints.amplitudePx;
+                }
+            }
+
+
+            switch (zeroMode){
+                case ZERO_MODE_TOP:
+                    barPoints.amplitudePxTopAbs = -barPoints.amplitudePxTop;
+                    barPoints.amplitudePxBottomAbs = -barPoints.amplitudePxBottom;
+                    break;
+                case ZERO_MODE_CENTER:
+                    barPoints.amplitudePxTopAbs = -barPoints.amplitudePxTop + height / 2;
+                    barPoints.amplitudePxBottomAbs = -barPoints.amplitudePxBottom + height / 2;
+                    break;
+                case ZERO_MODE_BOTTOM:
+                    barPoints.amplitudePxTopAbs = -barPoints.amplitudePxTop + height;
+                    barPoints.amplitudePxBottomAbs = -barPoints.amplitudePxBottom + height;
+                    break;
+                case ZERO_MODE_USR_DEFINE:
+                    break;
+            }
+            innerDataList.addLast(barPoints);
+
             mPoints[i * 4] = i * (barWidth + barGap);
-            mPoints[i * 4 + 1] = (height - barHeight) / 2;
+            mPoints[i * 4 + 1] = barPoints.amplitudePxTopAbs;
             mPoints[i * 4 + 2] = i * (barWidth + barGap);
-            mPoints[i * 4 + 3] = (height + barHeight) / 2;
+            mPoints[i * 4 + 3] = barPoints.amplitudePxBottomAbs;
+
         }
+
 
         /**
          * 清屏
@@ -207,6 +214,5 @@ public class SimpleWaveform extends View {
         canvas.drawLines(mPoints, mForeground);
 
     }
-
 
 }
