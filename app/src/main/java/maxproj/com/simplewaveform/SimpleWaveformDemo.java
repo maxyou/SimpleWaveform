@@ -21,10 +21,12 @@ public class SimpleWaveformDemo extends AppCompatActivity {
             ampList.add(randInt(-50, 50));
         }
         simpleWaveform.setDataList(ampList);
-        simpleWaveform.modeAmp = SimpleWaveform.MODE_AMP_REAL;
+        simpleWaveform.modeAmp = SimpleWaveform.MODE_AMP_ABSOLUTE;
         simpleWaveform.modeHeight = SimpleWaveform.MODE_HEIGHT_PERCENT;
         simpleWaveform.modeZero = SimpleWaveform.MODE_ZERO_CENTER;
-        simpleWaveform.modePaint = SimpleWaveform.MODE_PAINT_BAR;
+        simpleWaveform.showBar = true;
+        simpleWaveform.showPeak = true;
+        simpleWaveform.modePeak = SimpleWaveform.MODE_PEAK_CROSS_TURN_TOP_BOTTOM;
         simpleWaveform.refresh();
 
     }
