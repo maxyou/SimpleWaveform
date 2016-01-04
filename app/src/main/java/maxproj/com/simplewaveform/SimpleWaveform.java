@@ -28,10 +28,11 @@ public class SimpleWaveform extends View {
     public final static int MODE_ZERO_BOTTOM = 3;
     public final static int MODE_ZERO_USR_DEFINE = 4;
     public int modeZero = MODE_ZERO_CENTER;
-    public final static int MODE_PEAK_PARALLEL = 1;
-    public final static int MODE_PEAK_CROSS_TOP_BOTTOM = 2;
-    public final static int MODE_PEAK_CROSS_BOTTOM_TOP = 3;
-    public final static int MODE_PEAK_CROSS_TURN_TOP_BOTTOM = 4;
+    public final static int MODE_PEAK_ORIGIN = 1;
+    public final static int MODE_PEAK_PARALLEL = 2;
+    public final static int MODE_PEAK_CROSS_TOP_BOTTOM = 3;
+    public final static int MODE_PEAK_CROSS_BOTTOM_TOP = 4;
+    public final static int MODE_PEAK_CROSS_TURN_TOP_BOTTOM = 5;
     public int modePeak = MODE_PEAK_CROSS_TOP_BOTTOM;
     public boolean showPeak = true;
     public boolean showBar = true;
@@ -228,6 +229,20 @@ public class SimpleWaveform extends View {
                     BarPoints barPoints1_last = innerDataList.get(i - 1);
 
                     switch (modePeak) {
+                        case MODE_PEAK_ORIGIN:
+                            this.peakPoints[i * 4] = i * (barWidth + barGap);
+                            if(barPoints.amplitudePxTop != 0) {
+                                this.peakPoints[i * 4 + 1] = barPoints.amplitudePxTopAbs;
+                            }else{
+                                this.peakPoints[i * 4 + 1] = barPoints.amplitudePxBottomAbs;
+                            }
+                            this.peakPoints[i * 4 + 2] = (i-1) * (barWidth + barGap);
+                            if(barPoints1_last.amplitudePxTop != 0) {
+                                this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxTopAbs;
+                            }else{
+                                this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxBottomAbs;
+                            }
+                            break;
                         case MODE_PEAK_CROSS_BOTTOM_TOP:
                             peakCrossBottomTop(i, barPoints, barPoints1_last);
                             break;
@@ -269,8 +284,12 @@ public class SimpleWaveform extends View {
         /**
          * 画波形图
          */
-        canvas.drawLines(barPoints, barPencil);
-        canvas.drawLines(peakPoints, peakPencil);
+        if(showBar) {
+            canvas.drawLines(barPoints, barPencil);
+        }
+        if(showPeak) {
+            canvas.drawLines(peakPoints, peakPencil);
+        }
 
     }
 
