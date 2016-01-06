@@ -6,14 +6,21 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.LinkedList;
 import java.util.Random;
 
 public class SimpleWaveformDemo extends AppCompatActivity {
 
+    Button button_switch;
+    Button button_goto_advance;
+
+    int demo_loop;
+
     SimpleWaveform simpleWaveform;
-    LinkedList<Integer> ampList = new LinkedList<>();
+
     Paint barPencil = new Paint();
     Paint peakPencil = new Paint();
 
@@ -23,12 +30,37 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         setContentView(R.layout.activity_simple_waveform_demo);
 
         simpleWaveform = (SimpleWaveform)findViewById(R.id.simplewaveform);
-        demo3();
+
+        button_switch = (Button)findViewById(R.id.button_switch);
+        button_switch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                demo_loop++;
+                switch (demo_loop % 3){
+                    case 0:
+                        demo1();
+                        break;
+                    case 1:
+                        demo2();
+                        break;
+                    case 2:
+                        demo3();
+                        break;
+                }
+            }
+        });
+        button_goto_advance = (Button)findViewById(R.id.button_goto_advance);
+
+        demo1();
 
 
     }
 
     private void demo1() {
+
+        simpleWaveform.init();
+
+        LinkedList<Integer> ampList = new LinkedList<>();
         //generate random data
         for(int i = 0; i < 80; i++){
             ampList.add(randomInt(-50, 50));
@@ -57,7 +89,10 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         barPencil.setColor(0xf11dcf1f);
         simpleWaveform.barPencil = barPencil;
 
-        //we use default pencil to draw peaks outline
+        //define pencil to draw peaks outline
+        peakPencil.setStrokeWidth(5);
+        peakPencil.setColor(0xfffe2f3f);
+        simpleWaveform.peakPencil = peakPencil;
 
         //define how to clear screen
         simpleWaveform.clearScreenListener = new SimpleWaveform.ClearScreenListener() {
@@ -72,6 +107,10 @@ public class SimpleWaveformDemo extends AppCompatActivity {
     }
 
     private void demo2() {
+
+        simpleWaveform.init();
+
+        LinkedList<Integer> ampList = new LinkedList<>();
         //generate random data
         for(int i = 0; i < 80; i++){
             ampList.add(randomInt(-50, 50));
@@ -91,16 +130,19 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.showBar = true;
 
         //define how to show peaks outline
-        simpleWaveform.modePeak = SimpleWaveform.MODE_PEAK_ORIGIN;
+        simpleWaveform.modePeak = SimpleWaveform.MODE_PEAK_PARALLEL;
         //if show peaks outline?
-        simpleWaveform.showPeak = false;
+        simpleWaveform.showPeak = true;
 
         //define pencil to draw bar
         barPencil.setStrokeWidth(15);
         barPencil.setColor(0xf11dcf1f);
         simpleWaveform.barPencil = barPencil;
 
-        //we use default pencil to draw peaks outline
+        //define pencil to draw peaks outline
+        peakPencil.setStrokeWidth(5);
+        peakPencil.setColor(0xfffe2f3f);
+        simpleWaveform.peakPencil = peakPencil;
 
         //define how to clear screen
         simpleWaveform.clearScreenListener = new SimpleWaveform.ClearScreenListener() {
@@ -116,6 +158,10 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
 
     private void demo3() {
+
+        simpleWaveform.init();
+
+        LinkedList<Integer> ampList = new LinkedList<>();
         //generate random data
         for(int i = 0; i < 80; i++){
             ampList.add(randomInt(-50, 50));
@@ -144,10 +190,10 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         barPencil.setColor(0xf11dcf1f);
         simpleWaveform.barPencil = barPencil;
 
-        //define pencil to draw peak outline
+        //define pencil to draw peaks outline
         peakPencil.setStrokeWidth(5);
         peakPencil.setColor(0xfffe2f3f);
-        simpleWaveform.barPencil = barPencil;
+        simpleWaveform.peakPencil = peakPencil;
 
         //define how to clear screen
         simpleWaveform.clearScreenListener = new SimpleWaveform.ClearScreenListener() {

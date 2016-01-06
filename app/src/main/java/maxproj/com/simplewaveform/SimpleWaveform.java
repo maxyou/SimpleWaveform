@@ -19,40 +19,40 @@ public class SimpleWaveform extends View {
 
     public final static int MODE_AMP_ORIGIN = 1;
     public final static int MODE_AMP_ABSOLUTE = 2;
-    public int modeAmp = MODE_AMP_ABSOLUTE;
+    public int modeAmp;
     public final static int MODE_HEIGHT_PX = 1;
     public final static int MODE_HEIGHT_PERCENT = 2;
-    public int modeHeight = MODE_HEIGHT_PERCENT;
+    public int modeHeight;
     public final static int MODE_ZERO_TOP = 1;
     public final static int MODE_ZERO_CENTER = 2;
     public final static int MODE_ZERO_BOTTOM = 3;
     public final static int MODE_ZERO_USR_DEFINE = 4;
-    public int modeZero = MODE_ZERO_CENTER;
+    public int modeZero;
     public final static int MODE_PEAK_ORIGIN = 1;
     public final static int MODE_PEAK_PARALLEL = 2;
     public final static int MODE_PEAK_CROSS_TOP_BOTTOM = 3;
     public final static int MODE_PEAK_CROSS_BOTTOM_TOP = 4;
     public final static int MODE_PEAK_CROSS_TURN_TOP_BOTTOM = 5;
-    public int modePeak = MODE_PEAK_CROSS_TOP_BOTTOM;
-    public boolean showPeak = true;
-    public boolean showBar = true;
+    public int modePeak;
+    public boolean showPeak;
+    public boolean showBar;
 
     public int height;
     public int width;
     public boolean haveGotWidthHeight = false;
     //    public int barWidth = 10;
-    public int barGap = 40;
+    public int barGap;
 
-    public LinkedList<Integer> dataList = new LinkedList<Integer>();
+    public LinkedList<Integer> dataList;
     private LinkedList<BarPoints> innerDataList = new LinkedList<BarPoints>();
 
     class BarPoints {
-        int amplitude;
-        int amplitudePx;
-        int amplitudePxTop;
-        int amplitudePxBottom;
-        int amplitudePxTopAbs;
-        int amplitudePxBottomAbs;
+        int amplitude;//input data
+        int amplitudePx;//in px
+        int amplitudePxTop;//top point in px
+        int amplitudePxBottom;//bottom point in px
+        int amplitudePxTopCanvas;//top point in canvas, lookout that y-axis is down orientation
+        int amplitudePxBottomCanvas;//bottom point in canvas
 
         public BarPoints(int amplitude) {
             this.amplitude = amplitude;
@@ -112,17 +112,30 @@ public class SimpleWaveform extends View {
 
     }
 
-    private void init() {
+    public void init() {
 
-        getWidthLength();
+        if(!haveGotWidthHeight) {
+            getWidthLength();
+        }
 
         // set default value
+        barGap = 40;
+
         barPencil.setStrokeWidth(barGap / 2);//这里设置信号柱的宽度
         barPencil.setColor(0xff901f5f);
-
         peakPencil.setStrokeWidth(barGap / 6);//这里峰线的宽度
         peakPencil.setColor(0xfffe2f3f);
 
+        modeAmp = MODE_AMP_ABSOLUTE;
+        modeHeight = MODE_HEIGHT_PERCENT;
+        modeZero = MODE_ZERO_CENTER;
+        modePeak = MODE_PEAK_CROSS_TOP_BOTTOM;
+
+        showPeak = true;
+        showBar = true;
+
+        dataList = null;
+        clearScreenListener = null;
     }
 
     public void setDataList(LinkedList<Integer> ampList) {
@@ -162,6 +175,7 @@ public class SimpleWaveform extends View {
         if(dataList == null || dataList.size() == 0){
             return;
         }
+        innerDataList.clear();
 
         barNum = (width / barGap) + 1;
         if (barNum > dataList.size()) {
@@ -189,13 +203,15 @@ public class SimpleWaveform extends View {
             }
 
             if (modeAmp == MODE_AMP_ABSOLUTE) {
-                if (barPoints.amplitudePx > 0) {
-                    barPoints.amplitudePxTop = barPoints.amplitudePx;
-                    barPoints.amplitudePxBottom = -barPoints.amplitudePx;
-                } else {
-                    barPoints.amplitudePxTop = -barPoints.amplitudePx;
-                    barPoints.amplitudePxBottom = barPoints.amplitudePx;
-                }
+                barPoints.amplitudePxTop = Math.abs(barPoints.amplitudePx);
+                barPoints.amplitudePxBottom = -Math.abs(barPoints.amplitudePx);
+//                if (barPoints.amplitudePx > 0) {
+//                    barPoints.amplitudePxTop = barPoints.amplitudePx;
+//                    barPoints.amplitudePxBottom = -barPoints.amplitudePx;
+//                } else {
+//                    barPoints.amplitudePxTop = -barPoints.amplitudePx;
+//                    barPoints.amplitudePxBottom = barPoints.amplitudePx;
+//                }
             } else {
                 if (barPoints.amplitudePx > 0) {
                     barPoints.amplitudePxTop = barPoints.amplitudePx;
@@ -206,29 +222,36 @@ public class SimpleWaveform extends View {
                 }
             }
 
+            /**
+             * before here, amplitudePxTop/amplitudePxBottom is on normal x-y axis
+             * this mean y is up orientation
+             * in next step, we will invert the y axis ant set where is 'y == 0'
+             */
             switch (modeZero) {
                 case MODE_ZERO_TOP:
-                    barPoints.amplitudePxTopAbs = -barPoints.amplitudePxTop;
-                    barPoints.amplitudePxBottomAbs = -barPoints.amplitudePxBottom;
+                    barPoints.amplitudePxTopCanvas = -barPoints.amplitudePxTop;
+                    barPoints.amplitudePxBottomCanvas = -barPoints.amplitudePxBottom;
                     break;
                 case MODE_ZERO_CENTER:
-                    barPoints.amplitudePxTopAbs = -barPoints.amplitudePxTop + height / 2;
-                    barPoints.amplitudePxBottomAbs = -barPoints.amplitudePxBottom + height / 2;
+                    barPoints.amplitudePxTopCanvas = -barPoints.amplitudePxTop + height / 2;
+                    barPoints.amplitudePxBottomCanvas = -barPoints.amplitudePxBottom + height / 2;
                     break;
                 case MODE_ZERO_BOTTOM:
-                    barPoints.amplitudePxTopAbs = -barPoints.amplitudePxTop + height;
-                    barPoints.amplitudePxBottomAbs = -barPoints.amplitudePxBottom + height;
+                    barPoints.amplitudePxTopCanvas = -barPoints.amplitudePxTop + height;
+                    barPoints.amplitudePxBottomCanvas = -barPoints.amplitudePxBottom + height;
                     break;
                 case MODE_ZERO_USR_DEFINE:
                     break;
             }
-            innerDataList.addLast(barPoints);//得到可直接显示的数据
+
+            //自此得到可直接显示的数据
+            innerDataList.addLast(barPoints);
 
             if (showBar) {
                 this.barPoints[i * 4] = i * barGap;
-                this.barPoints[i * 4 + 1] = barPoints.amplitudePxTopAbs;
+                this.barPoints[i * 4 + 1] = barPoints.amplitudePxTopCanvas;
                 this.barPoints[i * 4 + 2] = i * barGap;
-                this.barPoints[i * 4 + 3] = barPoints.amplitudePxBottomAbs;
+                this.barPoints[i * 4 + 3] = barPoints.amplitudePxBottomCanvas;
             }
 
             if (showPeak) {
@@ -240,15 +263,15 @@ public class SimpleWaveform extends View {
                         case MODE_PEAK_ORIGIN:
                             this.peakPoints[i * 4] = i * barGap;
                             if (barPoints.amplitudePxTop != 0) {
-                                this.peakPoints[i * 4 + 1] = barPoints.amplitudePxTopAbs;
+                                this.peakPoints[i * 4 + 1] = barPoints.amplitudePxTopCanvas;
                             } else {
-                                this.peakPoints[i * 4 + 1] = barPoints.amplitudePxBottomAbs;
+                                this.peakPoints[i * 4 + 1] = barPoints.amplitudePxBottomCanvas;
                             }
                             this.peakPoints[i * 4 + 2] = (i - 1) * barGap;
                             if (barPoints1_last.amplitudePxTop != 0) {
-                                this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxTopAbs;
+                                this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxTopCanvas;
                             } else {
-                                this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxBottomAbs;
+                                this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxBottomCanvas;
                             }
                             break;
                         case MODE_PEAK_CROSS_BOTTOM_TOP:
@@ -267,14 +290,14 @@ public class SimpleWaveform extends View {
                         case MODE_PEAK_PARALLEL:
                             //draw top outline
                             this.peakPoints[i * 8] = i * barGap;
-                            this.peakPoints[i * 8 + 1] = barPoints.amplitudePxTopAbs;
+                            this.peakPoints[i * 8 + 1] = barPoints.amplitudePxTopCanvas;
                             this.peakPoints[i * 8 + 2] = (i - 1) * barGap;
-                            this.peakPoints[i * 8 + 3] = barPoints1_last.amplitudePxTopAbs;
+                            this.peakPoints[i * 8 + 3] = barPoints1_last.amplitudePxTopCanvas;
                             //draw bottom outline
                             this.peakPoints[i * 8 + 4] = i * barGap;
-                            this.peakPoints[i * 8 + 5] = barPoints.amplitudePxBottomAbs;
+                            this.peakPoints[i * 8 + 5] = barPoints.amplitudePxBottomCanvas;
                             this.peakPoints[i * 8 + 6] = (i - 1) * barGap;
-                            this.peakPoints[i * 8 + 7] = barPoints1_last.amplitudePxBottomAbs;
+                            this.peakPoints[i * 8 + 7] = barPoints1_last.amplitudePxBottomCanvas;
                             break;
                     }
                 }
@@ -296,16 +319,16 @@ public class SimpleWaveform extends View {
 
     private void peakCrossTopBottom(int i, BarPoints barPoints, BarPoints barPoints1_last) {
         this.peakPoints[i * 4] = i * barGap;
-        this.peakPoints[i * 4 + 1] = barPoints.amplitudePxBottomAbs;
+        this.peakPoints[i * 4 + 1] = barPoints.amplitudePxBottomCanvas;
         this.peakPoints[i * 4 + 2] = (i - 1) * barGap;
-        this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxTopAbs;
+        this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxTopCanvas;
     }
 
     private void peakCrossBottomTop(int i, BarPoints barPoints, BarPoints barPoints1_last) {
         this.peakPoints[i * 4] = i * barGap;
-        this.peakPoints[i * 4 + 1] = barPoints.amplitudePxTopAbs;
+        this.peakPoints[i * 4 + 1] = barPoints.amplitudePxTopCanvas;
         this.peakPoints[i * 4 + 2] = (i - 1) * barGap;
-        this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxBottomAbs;
+        this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxBottomCanvas;
     }
 
 }
