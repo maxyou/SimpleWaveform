@@ -34,6 +34,11 @@ public class SimpleWaveform extends View {
     public final static int MODE_PEAK_CROSS_BOTTOM_TOP = 4;
     public final static int MODE_PEAK_CROSS_TURN_TOP_BOTTOM = 5;
     public int modePeak;
+    public final static int MODE_DIRECTION_LEFT_RIGHT = 1;
+    public final static int MODE_DIRECTION_RIGHT_LEFT = 2;
+    public int modeDirection;
+
+
     public boolean showPeak;
     public boolean showBar;
 
@@ -53,7 +58,7 @@ public class SimpleWaveform extends View {
         int amplitudePxBottom;//bottom point in px
         int amplitudePxTopCanvas;//top point in canvas, lookout that y-axis is down orientation
         int amplitudePxBottomCanvas;//bottom point in canvas
-
+        int xOffset;//position in x axis
         public BarPoints(int amplitude) {
             this.amplitude = amplitude;
         }
@@ -177,7 +182,7 @@ public class SimpleWaveform extends View {
         }
         innerDataList.clear();
 
-        barNum = (width / barGap) + 1;
+        barNum = (width / barGap) + 2;
         if (barNum > dataList.size()) {
             barNum = dataList.size();
         }
@@ -196,6 +201,13 @@ public class SimpleWaveform extends View {
         for (int i = 0; i < barNum; i++) {
 
             BarPoints barPoints = new BarPoints(dataList.get(i));
+
+            if(modeDirection == MODE_DIRECTION_LEFT_RIGHT){
+                barPoints.xOffset = i * barGap;
+            }else{
+                barPoints.xOffset = width - i * barGap;
+            }
+
             if (modeHeight == MODE_HEIGHT_PERCENT) {
                 barPoints.amplitudePx = (barPoints.amplitude * height) / 100;
             } else {
@@ -248,9 +260,9 @@ public class SimpleWaveform extends View {
             innerDataList.addLast(barPoints);
 
             if (showBar) {
-                this.barPoints[i * 4] = i * barGap;
+                this.barPoints[i * 4] = barPoints.xOffset;
                 this.barPoints[i * 4 + 1] = barPoints.amplitudePxTopCanvas;
-                this.barPoints[i * 4 + 2] = i * barGap;
+                this.barPoints[i * 4 + 2] = barPoints.xOffset;
                 this.barPoints[i * 4 + 3] = barPoints.amplitudePxBottomCanvas;
             }
 
@@ -261,13 +273,13 @@ public class SimpleWaveform extends View {
 
                     switch (modePeak) {
                         case MODE_PEAK_ORIGIN:
-                            this.peakPoints[i * 4] = i * barGap;
+                            this.peakPoints[i * 4] = barPoints.xOffset;
                             if (barPoints.amplitudePxTop != 0) {
                                 this.peakPoints[i * 4 + 1] = barPoints.amplitudePxTopCanvas;
                             } else {
                                 this.peakPoints[i * 4 + 1] = barPoints.amplitudePxBottomCanvas;
                             }
-                            this.peakPoints[i * 4 + 2] = (i - 1) * barGap;
+                            this.peakPoints[i * 4 + 2] = barPoints1_last.xOffset;
                             if (barPoints1_last.amplitudePxTop != 0) {
                                 this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxTopCanvas;
                             } else {
@@ -289,14 +301,14 @@ public class SimpleWaveform extends View {
                             break;
                         case MODE_PEAK_PARALLEL:
                             //draw top outline
-                            this.peakPoints[i * 8] = i * barGap;
+                            this.peakPoints[i * 8] = barPoints.xOffset;
                             this.peakPoints[i * 8 + 1] = barPoints.amplitudePxTopCanvas;
-                            this.peakPoints[i * 8 + 2] = (i - 1) * barGap;
+                            this.peakPoints[i * 8 + 2] = barPoints1_last.xOffset;
                             this.peakPoints[i * 8 + 3] = barPoints1_last.amplitudePxTopCanvas;
                             //draw bottom outline
-                            this.peakPoints[i * 8 + 4] = i * barGap;
+                            this.peakPoints[i * 8 + 4] = barPoints.xOffset;
                             this.peakPoints[i * 8 + 5] = barPoints.amplitudePxBottomCanvas;
-                            this.peakPoints[i * 8 + 6] = (i - 1) * barGap;
+                            this.peakPoints[i * 8 + 6] = barPoints1_last.xOffset;
                             this.peakPoints[i * 8 + 7] = barPoints1_last.amplitudePxBottomCanvas;
                             break;
                     }
@@ -318,16 +330,16 @@ public class SimpleWaveform extends View {
     }
 
     private void peakCrossTopBottom(int i, BarPoints barPoints, BarPoints barPoints1_last) {
-        this.peakPoints[i * 4] = i * barGap;
+        this.peakPoints[i * 4] = barPoints.xOffset;
         this.peakPoints[i * 4 + 1] = barPoints.amplitudePxBottomCanvas;
-        this.peakPoints[i * 4 + 2] = (i - 1) * barGap;
+        this.peakPoints[i * 4 + 2] = barPoints1_last.xOffset;
         this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxTopCanvas;
     }
 
     private void peakCrossBottomTop(int i, BarPoints barPoints, BarPoints barPoints1_last) {
-        this.peakPoints[i * 4] = i * barGap;
+        this.peakPoints[i * 4] = barPoints.xOffset;
         this.peakPoints[i * 4 + 1] = barPoints.amplitudePxTopCanvas;
-        this.peakPoints[i * 4 + 2] = (i - 1) * barGap;
+        this.peakPoints[i * 4 + 2] = barPoints1_last.xOffset;
         this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxBottomCanvas;
     }
 

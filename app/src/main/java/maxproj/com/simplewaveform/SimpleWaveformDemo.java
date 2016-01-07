@@ -73,6 +73,9 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         //define bar gap
         simpleWaveform.barGap = 50;
 
+        //define x-axis direction
+        simpleWaveform.modeDirection = SimpleWaveform.MODE_DIRECTION_LEFT_RIGHT;
+
         //define if draw opposite pole when show bars
         simpleWaveform.modeAmp = SimpleWaveform.MODE_AMP_ORIGIN;
         //define if the unit is px or percent of the view's height
@@ -122,6 +125,9 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
         //define bar gap
         simpleWaveform.barGap = 30;
+
+        //define x-axis direction
+        simpleWaveform.modeDirection = SimpleWaveform.MODE_DIRECTION_LEFT_RIGHT;
 
         //define if draw opposite pole when show bars
         simpleWaveform.modeAmp = SimpleWaveform.MODE_AMP_ABSOLUTE;
@@ -174,6 +180,9 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         //define bar gap
         simpleWaveform.barGap = 100;
 
+        //define x-axis direction
+        simpleWaveform.modeDirection = SimpleWaveform.MODE_DIRECTION_LEFT_RIGHT;
+
         //define if draw opposite pole when show bars
         simpleWaveform.modeAmp = SimpleWaveform.MODE_AMP_ABSOLUTE;
         //define if the unit is px or percent of the view's height
@@ -224,6 +233,9 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
         //define bar gap
         simpleWaveform.barGap = 50;
+
+        //define x-axis direction
+        simpleWaveform.modeDirection = SimpleWaveform.MODE_DIRECTION_LEFT_RIGHT;
 
         //define if draw opposite pole when show bars
         simpleWaveform.modeAmp = SimpleWaveform.MODE_AMP_ABSOLUTE;
