@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.LinkedList;
@@ -77,6 +78,11 @@ public class SimpleWaveform extends View {
     }
     public ClearScreenListener clearScreenListener;
 
+    public interface ProgressTouch{
+        void progressTouch(int progress, MotionEvent event);
+    }
+    public ProgressTouch progressTouch;
+
     public int dp2Px(float dp) {
         return (int) (dp * context.getResources().getDisplayMetrics().density + 0.5f);
     }
@@ -141,6 +147,24 @@ public class SimpleWaveform extends View {
 
         dataList = null;
         clearScreenListener = null;
+
+        this.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if(progressTouch != null) {
+                    if (barGap != 0) {
+                        if(modeDirection == MODE_DIRECTION_LEFT_RIGHT) {
+                            progressTouch.progressTouch((int) (event.getX() / barGap) + 1, event);
+                        }else{
+                            progressTouch.progressTouch((int) ((width - event.getX()) / barGap) + 1, event);
+                        }
+                    }
+                }
+                return true;
+            }
+
+        });
     }
 
     public void setDataList(LinkedList<Integer> ampList) {

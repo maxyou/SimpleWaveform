@@ -6,6 +6,8 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -108,6 +110,13 @@ public class SimpleWaveformDemo extends AppCompatActivity {
             }
         };
 
+        simpleWaveform.progressTouch = new SimpleWaveform.ProgressTouch() {
+            @Override
+            public void progressTouch(int progress, MotionEvent event) {
+                Log.d("","you touch at: "+progress);
+            }
+        };
+
         //show...
         simpleWaveform.refresh();
     }
@@ -160,7 +169,12 @@ public class SimpleWaveformDemo extends AppCompatActivity {
                 canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
             }
         };
-
+        simpleWaveform.progressTouch = new SimpleWaveform.ProgressTouch() {
+            @Override
+            public void progressTouch(int progress, MotionEvent event) {
+                Log.d("", "you touch at: " + progress);
+            }
+        };
         //show...
         simpleWaveform.refresh();
     }
@@ -181,7 +195,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.barGap = 100;
 
         //define x-axis direction
-        simpleWaveform.modeDirection = SimpleWaveform.MODE_DIRECTION_LEFT_RIGHT;
+        simpleWaveform.modeDirection = SimpleWaveform.MODE_DIRECTION_RIGHT_LEFT;
 
         //define if draw opposite pole when show bars
         simpleWaveform.modeAmp = SimpleWaveform.MODE_AMP_ABSOLUTE;
@@ -214,7 +228,12 @@ public class SimpleWaveformDemo extends AppCompatActivity {
                 canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
             }
         };
-
+        simpleWaveform.progressTouch = new SimpleWaveform.ProgressTouch() {
+            @Override
+            public void progressTouch(int progress, MotionEvent event) {
+                Log.d("", "you touch at: " + progress);
+            }
+        };
         //show...
         simpleWaveform.refresh();
     }
@@ -235,7 +254,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.barGap = 50;
 
         //define x-axis direction
-        simpleWaveform.modeDirection = SimpleWaveform.MODE_DIRECTION_LEFT_RIGHT;
+        simpleWaveform.modeDirection = SimpleWaveform.MODE_DIRECTION_RIGHT_LEFT;
 
         //define if draw opposite pole when show bars
         simpleWaveform.modeAmp = SimpleWaveform.MODE_AMP_ABSOLUTE;
@@ -268,7 +287,12 @@ public class SimpleWaveformDemo extends AppCompatActivity {
                 canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
             }
         };
-
+        simpleWaveform.progressTouch = new SimpleWaveform.ProgressTouch() {
+            @Override
+            public void progressTouch(int progress, MotionEvent event) {
+                Log.d("", "you touch at: " + progress);
+            }
+        };
         //show...
         simpleWaveform.refresh();
     }
