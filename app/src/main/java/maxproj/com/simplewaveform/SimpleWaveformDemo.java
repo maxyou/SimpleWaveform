@@ -111,7 +111,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.peakPencilSecond = peakPencilSecond;
 
         //the first part will be draw by PencilFirst
-        simpleWaveform.firstPartNum = 5;
+        simpleWaveform.firstPartNum = 10;
 
         //define how to clear screen
         simpleWaveform.clearScreenListener = new SimpleWaveform.ClearScreenListener() {
@@ -182,7 +182,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.peakPencilSecond = peakPencilSecond;
 
         //the first part will be draw by PencilFirst
-        simpleWaveform.firstPartNum = 0;
+        simpleWaveform.firstPartNum = 20;
 
         //define how to clear screen
         simpleWaveform.clearScreenListener = new SimpleWaveform.ClearScreenListener() {
@@ -219,7 +219,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.barGap = 100;
 
         //define x-axis direction
-        simpleWaveform.modeDirection = SimpleWaveform.MODE_DIRECTION_RIGHT_LEFT;
+        simpleWaveform.modeDirection = SimpleWaveform.MODE_DIRECTION_LEFT_RIGHT;
 
         //define if draw opposite pole when show bars
         simpleWaveform.modeAmp = SimpleWaveform.MODE_AMP_ABSOLUTE;
@@ -252,7 +252,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.peakPencilSecond = peakPencilSecond;
 
         //the first part will be draw by PencilFirst
-        simpleWaveform.firstPartNum = 0;
+        simpleWaveform.firstPartNum = 5;
 
         //define how to clear screen
         simpleWaveform.clearScreenListener = new SimpleWaveform.ClearScreenListener() {
@@ -289,7 +289,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.barGap = 50;
 
         //define x-axis direction
-        simpleWaveform.modeDirection = SimpleWaveform.MODE_DIRECTION_RIGHT_LEFT;
+        simpleWaveform.modeDirection = SimpleWaveform.MODE_DIRECTION_LEFT_RIGHT;
 
         //define if draw opposite pole when show bars
         simpleWaveform.modeAmp = SimpleWaveform.MODE_AMP_ABSOLUTE;
@@ -322,7 +322,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.peakPencilSecond = peakPencilSecond;
 
         //the first part will be draw by PencilFirst
-        simpleWaveform.firstPartNum = 0;
+        simpleWaveform.firstPartNum = 10;
 
         //define how to clear screen
         simpleWaveform.clearScreenListener = new SimpleWaveform.ClearScreenListener() {
