@@ -39,6 +39,8 @@ public class SimpleWaveform extends View {
     public final static int MODE_DIRECTION_RIGHT_LEFT = 2;
     public int modeDirection;
 
+    private int barUnitSize;
+    private int peakUnitSize;
 
     public boolean showPeak;
     public boolean showBar;
@@ -60,27 +62,34 @@ public class SimpleWaveform extends View {
         int amplitudePxTopCanvas;//top point in canvas, lookout that y-axis is down orientation
         int amplitudePxBottomCanvas;//bottom point in canvas
         int xOffset;//position in x axis
+
         public BarPoints(int amplitude) {
             this.amplitude = amplitude;
         }
     }
 
-    public Paint barPencil = new Paint();
-    public Paint peakPencil = new Paint();
+    public Paint barPencilFirst = new Paint();
+    public Paint barPencilSecond = new Paint();
+    public Paint peakPencilFirst = new Paint();
+    public Paint peakPencilSecond = new Paint();
+    public int firstPartNum;//position to divide the first part and the second part
 
     private float[] barPoints;
     private float[] peakPoints;
     private int barNum;
 
     public boolean clearScreen = false;
+
     public interface ClearScreenListener {
         void clearScreen(Canvas canvas);
     }
+
     public ClearScreenListener clearScreenListener;
 
-    public interface ProgressTouch{
+    public interface ProgressTouch {
         void progressTouch(int progress, MotionEvent event);
     }
+
     public ProgressTouch progressTouch;
 
     public int dp2Px(float dp) {
@@ -125,17 +134,22 @@ public class SimpleWaveform extends View {
 
     public void init() {
 
-        if(!haveGotWidthHeight) {
+        if (!haveGotWidthHeight) {
             getWidthLength();
         }
 
         // set default value
         barGap = 40;
 
-        barPencil.setStrokeWidth(barGap / 2);//这里设置信号柱的宽度
-        barPencil.setColor(0xff901f5f);
-        peakPencil.setStrokeWidth(barGap / 6);//这里峰线的宽度
-        peakPencil.setColor(0xfffe2f3f);
+        barPencilFirst.setStrokeWidth(barGap / 2);//set bar width
+        barPencilFirst.setColor(0xff901f5f);
+        barPencilSecond.setStrokeWidth(barGap / 2);
+        barPencilSecond.setColor(0xff901f5f);
+        peakPencilFirst.setStrokeWidth(barGap / 6);//set peak outline width
+        peakPencilFirst.setColor(0xfffe2f3f);
+        peakPencilSecond.setStrokeWidth(barGap / 6);
+        peakPencilSecond.setColor(0xfffe2f3f);
+        firstPartNum = 0;
 
         modeAmp = MODE_AMP_ABSOLUTE;
         modeHeight = MODE_HEIGHT_PERCENT;
@@ -152,11 +166,11 @@ public class SimpleWaveform extends View {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                if(progressTouch != null) {
+                if (progressTouch != null) {
                     if (barGap != 0) {
-                        if(modeDirection == MODE_DIRECTION_LEFT_RIGHT) {
+                        if (modeDirection == MODE_DIRECTION_LEFT_RIGHT) {
                             progressTouch.progressTouch((int) (event.getX() / barGap) + 1, event);
-                        }else{
+                        } else {
                             progressTouch.progressTouch((int) ((width - event.getX()) / barGap) + 1, event);
                         }
                     }
@@ -197,11 +211,12 @@ public class SimpleWaveform extends View {
 
     private void drawWaveList(Canvas canvas) {
 
-        if(!haveGotWidthHeight){
+
+        if (!haveGotWidthHeight) {
             return;
         }
 
-        if(dataList == null || dataList.size() == 0){
+        if (dataList == null || dataList.size() == 0) {
             return;
         }
         innerDataList.clear();
@@ -212,13 +227,16 @@ public class SimpleWaveform extends View {
         }
 
         if (showBar) {
-            this.barPoints = new float[barNum * 4];
+            barUnitSize = 4;
+            this.barPoints = new float[barNum * barUnitSize];
         }
         if (showPeak) {
             if (modePeak == MODE_PEAK_PARALLEL) {
-                this.peakPoints = new float[barNum * 8];
+                peakUnitSize = 8;
+                this.peakPoints = new float[barNum * peakUnitSize];
             } else {
-                this.peakPoints = new float[barNum * 4];
+                peakUnitSize = 4;
+                this.peakPoints = new float[barNum * peakUnitSize];
             }
         }
 
@@ -226,9 +244,9 @@ public class SimpleWaveform extends View {
 
             BarPoints barPoints = new BarPoints(dataList.get(i));
 
-            if(modeDirection == MODE_DIRECTION_LEFT_RIGHT){
+            if (modeDirection == MODE_DIRECTION_LEFT_RIGHT) {
                 barPoints.xOffset = i * barGap;
-            }else{
+            } else {
                 barPoints.xOffset = width - i * barGap;
             }
 
@@ -280,14 +298,14 @@ public class SimpleWaveform extends View {
                     break;
             }
 
-            //自此得到可直接显示的数据
+            //now we get the data to show
             innerDataList.addLast(barPoints);
 
             if (showBar) {
-                this.barPoints[i * 4] = barPoints.xOffset;
-                this.barPoints[i * 4 + 1] = barPoints.amplitudePxTopCanvas;
-                this.barPoints[i * 4 + 2] = barPoints.xOffset;
-                this.barPoints[i * 4 + 3] = barPoints.amplitudePxBottomCanvas;
+                this.barPoints[i * barUnitSize] = barPoints.xOffset;
+                this.barPoints[i * barUnitSize + 1] = barPoints.amplitudePxTopCanvas;
+                this.barPoints[i * barUnitSize + 2] = barPoints.xOffset;
+                this.barPoints[i * barUnitSize + 3] = barPoints.amplitudePxBottomCanvas;
             }
 
             if (showPeak) {
@@ -297,17 +315,17 @@ public class SimpleWaveform extends View {
 
                     switch (modePeak) {
                         case MODE_PEAK_ORIGIN:
-                            this.peakPoints[i * 4] = barPoints.xOffset;
+                            this.peakPoints[i * peakUnitSize] = barPoints.xOffset;
                             if (barPoints.amplitudePxTop != 0) {
-                                this.peakPoints[i * 4 + 1] = barPoints.amplitudePxTopCanvas;
+                                this.peakPoints[i * peakUnitSize + 1] = barPoints.amplitudePxTopCanvas;
                             } else {
-                                this.peakPoints[i * 4 + 1] = barPoints.amplitudePxBottomCanvas;
+                                this.peakPoints[i * peakUnitSize + 1] = barPoints.amplitudePxBottomCanvas;
                             }
-                            this.peakPoints[i * 4 + 2] = barPoints1_last.xOffset;
+                            this.peakPoints[i * peakUnitSize + 2] = barPoints1_last.xOffset;
                             if (barPoints1_last.amplitudePxTop != 0) {
-                                this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxTopCanvas;
+                                this.peakPoints[i * peakUnitSize + 3] = barPoints1_last.amplitudePxTopCanvas;
                             } else {
-                                this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxBottomCanvas;
+                                this.peakPoints[i * peakUnitSize + 3] = barPoints1_last.amplitudePxBottomCanvas;
                             }
                             break;
                         case MODE_PEAK_CROSS_BOTTOM_TOP:
@@ -325,15 +343,15 @@ public class SimpleWaveform extends View {
                             break;
                         case MODE_PEAK_PARALLEL:
                             //draw top outline
-                            this.peakPoints[i * 8] = barPoints.xOffset;
-                            this.peakPoints[i * 8 + 1] = barPoints.amplitudePxTopCanvas;
-                            this.peakPoints[i * 8 + 2] = barPoints1_last.xOffset;
-                            this.peakPoints[i * 8 + 3] = barPoints1_last.amplitudePxTopCanvas;
+                            this.peakPoints[i * peakUnitSize] = barPoints.xOffset;
+                            this.peakPoints[i * peakUnitSize + 1] = barPoints.amplitudePxTopCanvas;
+                            this.peakPoints[i * peakUnitSize + 2] = barPoints1_last.xOffset;
+                            this.peakPoints[i * peakUnitSize + 3] = barPoints1_last.amplitudePxTopCanvas;
                             //draw bottom outline
-                            this.peakPoints[i * 8 + 4] = barPoints.xOffset;
-                            this.peakPoints[i * 8 + 5] = barPoints.amplitudePxBottomCanvas;
-                            this.peakPoints[i * 8 + 6] = barPoints1_last.xOffset;
-                            this.peakPoints[i * 8 + 7] = barPoints1_last.amplitudePxBottomCanvas;
+                            this.peakPoints[i * peakUnitSize + 4] = barPoints.xOffset;
+                            this.peakPoints[i * peakUnitSize + 5] = barPoints.amplitudePxBottomCanvas;
+                            this.peakPoints[i * peakUnitSize + 6] = barPoints1_last.xOffset;
+                            this.peakPoints[i * peakUnitSize + 7] = barPoints1_last.amplitudePxBottomCanvas;
                             break;
                     }
                 }
@@ -342,29 +360,34 @@ public class SimpleWaveform extends View {
         }
 
         /**
-         * 画波形图
+         * draw
          */
+        if (firstPartNum > barNum) {
+            firstPartNum = barNum;
+        }
         if (showBar) {
-            canvas.drawLines(barPoints, barPencil);
+            canvas.drawLines(barPoints, 0, firstPartNum * barUnitSize, barPencilFirst);
+            canvas.drawLines(barPoints, firstPartNum * barUnitSize, (barNum - firstPartNum) * barUnitSize, barPencilSecond);
         }
         if (showPeak) {
-            canvas.drawLines(peakPoints, peakPencil);
+            canvas.drawLines(peakPoints, 0, firstPartNum * peakUnitSize, peakPencilFirst);
+            canvas.drawLines(peakPoints, firstPartNum * peakUnitSize, (barNum - firstPartNum) * peakUnitSize, peakPencilSecond);
         }
 
     }
 
     private void peakCrossTopBottom(int i, BarPoints barPoints, BarPoints barPoints1_last) {
-        this.peakPoints[i * 4] = barPoints.xOffset;
-        this.peakPoints[i * 4 + 1] = barPoints.amplitudePxBottomCanvas;
-        this.peakPoints[i * 4 + 2] = barPoints1_last.xOffset;
-        this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxTopCanvas;
+        this.peakPoints[i * peakUnitSize] = barPoints.xOffset;
+        this.peakPoints[i * peakUnitSize + 1] = barPoints.amplitudePxBottomCanvas;
+        this.peakPoints[i * peakUnitSize + 2] = barPoints1_last.xOffset;
+        this.peakPoints[i * peakUnitSize + 3] = barPoints1_last.amplitudePxTopCanvas;
     }
 
     private void peakCrossBottomTop(int i, BarPoints barPoints, BarPoints barPoints1_last) {
-        this.peakPoints[i * 4] = barPoints.xOffset;
-        this.peakPoints[i * 4 + 1] = barPoints.amplitudePxTopCanvas;
-        this.peakPoints[i * 4 + 2] = barPoints1_last.xOffset;
-        this.peakPoints[i * 4 + 3] = barPoints1_last.amplitudePxBottomCanvas;
+        this.peakPoints[i * peakUnitSize] = barPoints.xOffset;
+        this.peakPoints[i * peakUnitSize + 1] = barPoints.amplitudePxTopCanvas;
+        this.peakPoints[i * peakUnitSize + 2] = barPoints1_last.xOffset;
+        this.peakPoints[i * peakUnitSize + 3] = barPoints1_last.amplitudePxBottomCanvas;
     }
 
 }

@@ -23,8 +23,10 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
     SimpleWaveform simpleWaveform;
 
-    Paint barPencil = new Paint();
-    Paint peakPencil = new Paint();
+    Paint barPencilFirst = new Paint();
+    Paint barPencilSecond = new Paint();
+    Paint peakPencilFirst = new Paint();
+    Paint peakPencilSecond = new Paint();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,14 +95,23 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.showPeak = true;
 
         //define pencil to draw bar
-        barPencil.setStrokeWidth(15);
-        barPencil.setColor(0xf11dcf1f);
-        simpleWaveform.barPencil = barPencil;
+        barPencilFirst.setStrokeWidth(15);
+        barPencilFirst.setColor(0xff1dcf0f);
+        simpleWaveform.barPencilFirst = barPencilFirst;
+        barPencilSecond.setStrokeWidth(15);
+        barPencilSecond.setColor(0xff1dcfcf);
+        simpleWaveform.barPencilSecond = barPencilSecond;
 
         //define pencil to draw peaks outline
-        peakPencil.setStrokeWidth(5);
-        peakPencil.setColor(0xfffe2f3f);
-        simpleWaveform.peakPencil = peakPencil;
+        peakPencilFirst.setStrokeWidth(5);
+        peakPencilFirst.setColor(0xfffe2f3f);
+        simpleWaveform.peakPencilFirst = peakPencilFirst;
+        peakPencilSecond.setStrokeWidth(5);
+        peakPencilSecond.setColor(0xfffeef3f);
+        simpleWaveform.peakPencilSecond = peakPencilSecond;
+
+        //the first part will be draw by PencilFirst
+        simpleWaveform.firstPartNum = 5;
 
         //define how to clear screen
         simpleWaveform.clearScreenListener = new SimpleWaveform.ClearScreenListener() {
@@ -114,6 +125,8 @@ public class SimpleWaveformDemo extends AppCompatActivity {
             @Override
             public void progressTouch(int progress, MotionEvent event) {
                 Log.d("","you touch at: "+progress);
+                simpleWaveform.firstPartNum = progress;
+                simpleWaveform.refresh();
             }
         };
 
@@ -153,14 +166,23 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.showPeak = true;
 
         //define pencil to draw bar
-        barPencil.setStrokeWidth(15);
-        barPencil.setColor(0xf11dcf1f);
-        simpleWaveform.barPencil = barPencil;
+        barPencilFirst.setStrokeWidth(15);
+        barPencilFirst.setColor(0xff1dcf0f);
+        simpleWaveform.barPencilFirst = barPencilFirst;
+        barPencilSecond.setStrokeWidth(15);
+        barPencilSecond.setColor(0xff1dcfcf);
+        simpleWaveform.barPencilSecond = barPencilSecond;
 
         //define pencil to draw peaks outline
-        peakPencil.setStrokeWidth(5);
-        peakPencil.setColor(0xfffe2f3f);
-        simpleWaveform.peakPencil = peakPencil;
+        peakPencilFirst.setStrokeWidth(5);
+        peakPencilFirst.setColor(0xfffe2f3f);
+        simpleWaveform.peakPencilFirst = peakPencilFirst;
+        peakPencilSecond.setStrokeWidth(5);
+        peakPencilSecond.setColor(0xfffeef3f);
+        simpleWaveform.peakPencilSecond = peakPencilSecond;
+
+        //the first part will be draw by PencilFirst
+        simpleWaveform.firstPartNum = 0;
 
         //define how to clear screen
         simpleWaveform.clearScreenListener = new SimpleWaveform.ClearScreenListener() {
@@ -173,6 +195,8 @@ public class SimpleWaveformDemo extends AppCompatActivity {
             @Override
             public void progressTouch(int progress, MotionEvent event) {
                 Log.d("", "you touch at: " + progress);
+                simpleWaveform.firstPartNum = progress;
+                simpleWaveform.refresh();
             }
         };
         //show...
@@ -212,14 +236,23 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.showPeak = true;
 
         //define pencil to draw bar
-        barPencil.setStrokeWidth(75);
-        barPencil.setColor(0xf11dcf1f);
-        simpleWaveform.barPencil = barPencil;
+        barPencilFirst.setStrokeWidth(75);
+        barPencilFirst.setColor(0xff1dcf0f);
+        simpleWaveform.barPencilFirst = barPencilFirst;
+        barPencilSecond.setStrokeWidth(75);
+        barPencilSecond.setColor(0xff1dcfcf);
+        simpleWaveform.barPencilSecond = barPencilSecond;
 
         //define pencil to draw peaks outline
-        peakPencil.setStrokeWidth(5);
-        peakPencil.setColor(0xfffe2f3f);
-        simpleWaveform.peakPencil = peakPencil;
+        peakPencilFirst.setStrokeWidth(5);
+        peakPencilFirst.setColor(0xfffe2f3f);
+        simpleWaveform.peakPencilFirst = peakPencilFirst;
+        peakPencilSecond.setStrokeWidth(5);
+        peakPencilSecond.setColor(0xfffeef3f);
+        simpleWaveform.peakPencilSecond = peakPencilSecond;
+
+        //the first part will be draw by PencilFirst
+        simpleWaveform.firstPartNum = 0;
 
         //define how to clear screen
         simpleWaveform.clearScreenListener = new SimpleWaveform.ClearScreenListener() {
@@ -232,6 +265,8 @@ public class SimpleWaveformDemo extends AppCompatActivity {
             @Override
             public void progressTouch(int progress, MotionEvent event) {
                 Log.d("", "you touch at: " + progress);
+                simpleWaveform.firstPartNum = progress;
+                simpleWaveform.refresh();
             }
         };
         //show...
@@ -271,14 +306,23 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.showPeak = true;
 
         //define pencil to draw bar
-        barPencil.setStrokeWidth(5);
-        barPencil.setColor(0xf11dcf1f);
-        simpleWaveform.barPencil = barPencil;
+        barPencilFirst.setStrokeWidth(5);
+        barPencilFirst.setColor(0xff1dcf0f);
+        simpleWaveform.barPencilFirst = barPencilFirst;
+        barPencilSecond.setStrokeWidth(5);
+        barPencilSecond.setColor(0xff1dcfcf);
+        simpleWaveform.barPencilSecond = barPencilSecond;
 
         //define pencil to draw peaks outline
-        peakPencil.setStrokeWidth(5);
-        peakPencil.setColor(0xfffe2f3f);
-        simpleWaveform.peakPencil = peakPencil;
+        peakPencilFirst.setStrokeWidth(5);
+        peakPencilFirst.setColor(0xfffe2f3f);
+        simpleWaveform.peakPencilFirst = peakPencilFirst;
+        peakPencilSecond.setStrokeWidth(5);
+        peakPencilSecond.setColor(0xfffeef3f);
+        simpleWaveform.peakPencilSecond = peakPencilSecond;
+
+        //the first part will be draw by PencilFirst
+        simpleWaveform.firstPartNum = 0;
 
         //define how to clear screen
         simpleWaveform.clearScreenListener = new SimpleWaveform.ClearScreenListener() {
@@ -291,6 +335,8 @@ public class SimpleWaveformDemo extends AppCompatActivity {
             @Override
             public void progressTouch(int progress, MotionEvent event) {
                 Log.d("", "you touch at: " + progress);
+                simpleWaveform.firstPartNum = progress;
+                simpleWaveform.refresh();
             }
         };
         //show...
