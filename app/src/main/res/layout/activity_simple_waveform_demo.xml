@@ -15,7 +15,7 @@
         android:layout_height="300dp" />
 
     <Button
-        android:id="@+id/button_switch"
+        android:id="@+id/button_switch_simple_demos"
         android:layout_margin="10dp"
         android:text="switch simple demo"
         android:textAllCaps="false"
@@ -23,9 +23,9 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/button_goto_advance"
+        android:id="@+id/button_switch_advance_demos"
         android:layout_margin="10dp"
-        android:text="go to advanced demo"
+        android:text="switch advanced demo"
         android:textAllCaps="false"
         android:layout_width="300dp"
         android:layout_height="wrap_content" />
