@@ -497,6 +497,9 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         RecyclerViewAdapter waveAdapter = new RecyclerViewAdapter(amp_list_list);
         recycler_view.setAdapter(waveAdapter);
 
+//        recycler_view.scrollBy(100, 10);
+        recycler_view.scrollToPosition(2);
+//        recycler_view.smoothScrollBy(100, 10);
     }
 
     public int randomInt(int min, int max) {
@@ -519,13 +522,13 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
-            public SimpleWaveform simpleWaveform1;
+            public SimpleWaveform simpleWaveform;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                this.simpleWaveform1 = (SimpleWaveform) itemView
+                this.simpleWaveform = (SimpleWaveform) itemView
                         .findViewById(R.id.simplewaveform_row);
-//                this.simpleWaveform1.clearScreen();
+//                this.simpleWaveform.clearScreen();
             }
         }
 
@@ -538,9 +541,16 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            Log.d("","SimpleWaveform: position " + position);
-            holder.simpleWaveform1.setDataList(amp_list_list.get(position));
-            holder.simpleWaveform1.refresh();
+            Log.d("", "SimpleWaveform: position " + position);
+            holder.simpleWaveform.setDataList(amp_list_list.get(position));
+
+            holder.simpleWaveform.barPencilSecond.setStrokeWidth(15);
+            holder.simpleWaveform.barPencilSecond.setColor(0xff1dcfcf);
+
+            holder.simpleWaveform.peakPencilSecond.setStrokeWidth(5);
+            holder.simpleWaveform.peakPencilSecond.setColor(0xfffeef3f);
+
+            holder.simpleWaveform.refresh();
         }
 
 

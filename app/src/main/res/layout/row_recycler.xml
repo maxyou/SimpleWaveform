@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@android:color/holo_purple"
     android:layout_width="wrap_content"
-    android:layout_height="300dp">
-+
+    android:layout_height="wrap_content">
+
     <maxproj.com.simplewaveform.SimpleWaveform
         android:id="@+id/simplewaveform_row"
         android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_margin="2dp" />
+        android:layout_height="300dp" />
 
 </FrameLayout>
