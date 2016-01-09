@@ -126,6 +126,8 @@ public class SimpleWaveform extends View {
                 height = SimpleWaveform.this.getHeight();
 
                 haveGotWidthHeight = true;
+
+                SimpleWaveform.this.invalidate();
             }
         });
 
@@ -213,6 +215,7 @@ public class SimpleWaveform extends View {
 
 
         if (!haveGotWidthHeight) {
+            Log.d("","SimpleWaveform: drawWaveList() return for no width and height");
             return;
         }
 

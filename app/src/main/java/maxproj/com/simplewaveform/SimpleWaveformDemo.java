@@ -9,10 +9,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.util.LinkedList;
 import java.util.Random;
+
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 public class SimpleWaveformDemo extends AppCompatActivity {
 
@@ -23,6 +27,8 @@ public class SimpleWaveformDemo extends AppCompatActivity {
     int advance_demo_loop = 0;
 
     SimpleWaveform simpleWaveform;
+    RecyclerView recycler_view;
+    LinearLayoutManager linearLayoutManager;
 
     Paint barPencilFirst = new Paint();
     Paint barPencilSecond = new Paint();
@@ -34,15 +40,20 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_waveform_demo);
 
-        simpleWaveform = (SimpleWaveform)findViewById(R.id.simplewaveform);
+        simpleWaveform = (SimpleWaveform) findViewById(R.id.simplewaveform);
+        recycler_view = (RecyclerView)findViewById(R.id.recycler_view);
 
-        button_switch_simple_demos = (Button)findViewById(R.id.button_switch_simple_demos);
+        button_switch_simple_demos = (Button) findViewById(R.id.button_switch_simple_demos);
         button_switch_simple_demos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                simpleWaveform.setVisibility(View.VISIBLE);
+                recycler_view.setVisibility(View.GONE);
+
                 advance_demo_loop = 0;
                 simple_demo_loop++;
-                if(simple_demo_loop > 4){
+                if (simple_demo_loop > 4) {
                     simple_demo_loop = 1;
                 }
                 switch (simple_demo_loop) {
@@ -61,21 +72,26 @@ public class SimpleWaveformDemo extends AppCompatActivity {
                 }
             }
         });
-        button_switch_advance_demos = (Button)findViewById(R.id.button_switch_advance_demos);
+        button_switch_advance_demos = (Button) findViewById(R.id.button_switch_advance_demos);
         button_switch_advance_demos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 simple_demo_loop = 0;
                 advance_demo_loop++;
-                if(advance_demo_loop > 2){
+                if (advance_demo_loop > 2) {
                     advance_demo_loop = 1;
                 }
                 switch (advance_demo_loop) {
                     case 1:
+                        simpleWaveform.setVisibility(View.VISIBLE);
+                        recycler_view.setVisibility(View.GONE);
                         demoAdvance1();
                         break;
                     case 2:
-                        demo2();
+                        simpleWaveform.setVisibility(View.GONE);
+                        recycler_view.setVisibility(View.VISIBLE);
+                        demoAdvance2();
                         break;
                 }
 
@@ -94,7 +110,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
         LinkedList<Integer> ampList = new LinkedList<>();
         //generate random data
-        for(int i = 0; i < 80; i++){
+        for (int i = 0; i < 80; i++) {
             ampList.add(randomInt(-50, 50));
         }
         simpleWaveform.setDataList(ampList);
@@ -149,7 +165,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.progressTouch = new SimpleWaveform.ProgressTouch() {
             @Override
             public void progressTouch(int progress, MotionEvent event) {
-                Log.d("","you touch at: "+progress);
+                Log.d("", "you touch at: " + progress);
                 simpleWaveform.firstPartNum = progress;
                 simpleWaveform.refresh();
             }
@@ -165,7 +181,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
         LinkedList<Integer> ampList = new LinkedList<>();
         //generate random data
-        for(int i = 0; i < 80; i++){
+        for (int i = 0; i < 80; i++) {
             ampList.add(randomInt(-50, 50));
         }
         simpleWaveform.setDataList(ampList);
@@ -235,7 +251,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
         LinkedList<Integer> ampList = new LinkedList<>();
         //generate random data
-        for(int i = 0; i < 80; i++){
+        for (int i = 0; i < 80; i++) {
             ampList.add(randomInt(0, 100));
         }
         simpleWaveform.setDataList(ampList);
@@ -305,7 +321,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
         LinkedList<Integer> ampList = new LinkedList<>();
         //generate random data
-        for(int i = 0; i < 80; i++){
+        for (int i = 0; i < 80; i++) {
             ampList.add(randomInt(-50, 50));
         }
         simpleWaveform.setDataList(ampList);
@@ -367,8 +383,6 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         //show...
         simpleWaveform.refresh();
     }
-
-
 
     private void demoAdvance1() {
 
@@ -441,7 +455,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
                     } catch (Exception e) {
                     }
 
-                    if(advance_demo_loop != 1){
+                    if (advance_demo_loop != 1) {
                         break;
                     }
 
@@ -449,9 +463,9 @@ public class SimpleWaveformDemo extends AppCompatActivity {
                         @Override
                         public void run() {
                             ampList.addFirst(randomInt(-50, 50));
-                            if(ampList.size() > simpleWaveform.width / simpleWaveform.barGap + 2){
+                            if (ampList.size() > simpleWaveform.width / simpleWaveform.barGap + 2) {
                                 ampList.removeLast();
-                                Log.d("","SimpleWaveform: ampList remove last node, total " + ampList.size());
+                                Log.d("", "SimpleWaveform: ampList remove last node, total " + ampList.size());
                             }
                             simpleWaveform.refresh();
                         }
@@ -462,6 +476,29 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
     }
 
+    public void demoAdvance2() {
+
+        LinkedList<LinkedList<Integer>> amp_list_list = new LinkedList();
+        for (int i = 0; i < 6; i++) {
+
+            LinkedList<Integer> ampList = new LinkedList<>();
+            amp_list_list.add(ampList);
+
+            for (int j = 0; j < 200; j++) {
+                ampList.add(randomInt(-50, 50));
+            }
+
+        }
+
+
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recycler_view.setLayoutManager(linearLayoutManager);
+        RecyclerViewAdapter waveAdapter = new RecyclerViewAdapter(amp_list_list);
+        recycler_view.setAdapter(waveAdapter);
+
+    }
+
     public int randomInt(int min, int max) {
 
         Random rand = new Random();
@@ -469,4 +506,55 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
         return randomNum;
     }
+
+
+    public class RecyclerViewAdapter extends
+            RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+        // List<LvRowFile> listItems;
+        LinkedList<LinkedList<Integer>> amp_list_list;
+
+        public RecyclerViewAdapter(LinkedList<LinkedList<Integer>> amp_list_list) {
+            this.amp_list_list = amp_list_list;
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+
+            public SimpleWaveform simpleWaveform1;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                this.simpleWaveform1 = (SimpleWaveform) itemView
+                        .findViewById(R.id.simplewaveform_row);
+//                this.simpleWaveform1.clearScreen();
+            }
+        }
+
+
+        @Override
+        public int getItemCount() {
+            Log.d("","SimpleWaveform: amp_list_list.size() "+amp_list_list.size());
+            return amp_list_list.size();
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            Log.d("","SimpleWaveform: position " + position);
+            holder.simpleWaveform1.setDataList(amp_list_list.get(position));
+            holder.simpleWaveform1.refresh();
+        }
+
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            // View view = View.inflate(parent.getContext(),
+            // R.layout.gridview_pic, null);
+            View view = View.inflate(parent.getContext(),
+                    R.layout.row_recycler, null);
+            ViewHolder holder = new ViewHolder(view);
+            Log.d("","SimpleWaveform: onCreateViewHolder ");
+            return holder;
+        }
+
+    }
+
 }
