@@ -17,8 +17,6 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:background="@color/Blue"
-        android:layout_margin="10dp"
-        android:padding="8dp"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="300dp" />
