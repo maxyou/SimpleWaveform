@@ -186,7 +186,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         //show...
         simpleWaveform.refresh();
 
-        demo_introduce.setText("demo1");
+        demo_introduce.setText("demo1: positive and negative data");
     }
 
 
@@ -264,7 +264,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         //show...
         simpleWaveform.refresh();
 
-        demo_introduce.setText("demo2");
+        demo_introduce.setText("demo2: bar chart");
     }
 
 
@@ -342,7 +342,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         //show...
         simpleWaveform.refresh();
 
-        demo_introduce.setText("demo3");
+        demo_introduce.setText("demo3: amplitude bar");
     }
 
 
@@ -420,7 +420,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         //show...
         simpleWaveform.refresh();
 
-        demo_introduce.setText("demo4");
+        demo_introduce.setText("demo4: sound wave");
     }
 
     private void demoAdvance1() {
@@ -519,7 +519,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
             }
         }).start();
 
-        demo_introduce.setText("advance demo1");
+        demo_introduce.setText("advance demo1: generate recorder amplitude bar");
 
     }
 
@@ -548,7 +548,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         recycler_view.scrollToPosition(2);
 //        recycler_view.smoothScrollBy(100, 10);
 
-        demo_introduce.setText("advance demo2");
+        demo_introduce.setText("advance demo2: embedded in horizontal recycler view");
     }
 
     private int randomInt(int min, int max) {
