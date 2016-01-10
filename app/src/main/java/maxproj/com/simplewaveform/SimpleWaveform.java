@@ -27,7 +27,6 @@ public class SimpleWaveform extends View {
     public final static int MODE_ZERO_TOP = 1;
     public final static int MODE_ZERO_CENTER = 2;
     public final static int MODE_ZERO_BOTTOM = 3;
-    public final static int MODE_ZERO_USR_DEFINE = 4;
     public int modeZero;
     public final static int MODE_PEAK_ORIGIN = 1;
     public final static int MODE_PEAK_PARALLEL = 2;
@@ -44,6 +43,7 @@ public class SimpleWaveform extends View {
 
     public boolean showPeak;
     public boolean showBar;
+    public boolean showXAxis;
 
     public int height;
     public int width;
@@ -77,6 +77,9 @@ public class SimpleWaveform extends View {
     private float[] barPoints;
     private float[] peakPoints;
     private int barNum;
+
+    private float[] xAxisPoints;
+    public Paint xAxisPencil = new Paint();
 
     public boolean clearScreen = false;
 
@@ -160,6 +163,10 @@ public class SimpleWaveform extends View {
 
         showPeak = true;
         showBar = true;
+        showXAxis = true;
+
+        xAxisPencil.setStrokeWidth(1);
+        xAxisPencil.setColor(0x88ffffff);
 
         dataList = null;
         clearScreenListener = null;
@@ -297,8 +304,6 @@ public class SimpleWaveform extends View {
                     barPoints.amplitudePxTopCanvas = -barPoints.amplitudePxTop + height;
                     barPoints.amplitudePxBottomCanvas = -barPoints.amplitudePxBottom + height;
                     break;
-                case MODE_ZERO_USR_DEFINE:
-                    break;
             }
 
             //now we get the data to show
@@ -375,6 +380,26 @@ public class SimpleWaveform extends View {
         if (showPeak) {
             canvas.drawLines(peakPoints, 0, firstPartNum * peakUnitSize, peakPencilFirst);
             canvas.drawLines(peakPoints, firstPartNum * peakUnitSize, (barNum - firstPartNum) * peakUnitSize, peakPencilSecond);
+        }
+        if(showXAxis){
+            xAxisPoints = new float[4];
+            int xAxis_y = 0;
+            switch (modeZero) {
+                case MODE_ZERO_TOP:
+                    xAxis_y = 0;
+                    break;
+                case MODE_ZERO_CENTER:
+                    xAxis_y = height / 2;
+                    break;
+                case MODE_ZERO_BOTTOM:
+                    xAxis_y = height;
+                    break;
+            }
+            xAxisPoints[0] = 0;
+            xAxisPoints[1] = xAxis_y;
+            xAxisPoints[2] = width;
+            xAxisPoints[3] = xAxis_y;
+            canvas.drawLines(xAxisPoints, xAxisPencil);
         }
 
     }

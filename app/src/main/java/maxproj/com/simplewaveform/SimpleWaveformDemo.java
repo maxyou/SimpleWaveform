@@ -35,6 +35,8 @@ public class SimpleWaveformDemo extends AppCompatActivity {
     Paint peakPencilFirst = new Paint();
     Paint peakPencilSecond = new Paint();
 
+    Paint xAxisPencil = new Paint();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +103,6 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simple_demo_loop = 1;
         demo1();
 
-
     }
 
     private void demo1() {
@@ -134,6 +135,12 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.modePeak = SimpleWaveform.MODE_PEAK_ORIGIN;
         //if show peaks outline?
         simpleWaveform.showPeak = true;
+
+        //show x-axis
+        simpleWaveform.showXAxis = true;
+        xAxisPencil.setStrokeWidth(1);
+        xAxisPencil.setColor(0x88ffffff);
+        simpleWaveform.xAxisPencil = xAxisPencil;
 
         //define pencil to draw bar
         barPencilFirst.setStrokeWidth(15);
@@ -207,6 +214,12 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         //if show peaks outline?
         simpleWaveform.showPeak = true;
 
+        //show x-axis
+        simpleWaveform.showXAxis = true;
+        xAxisPencil.setStrokeWidth(1);
+        xAxisPencil.setColor(0x88ffffff);
+        simpleWaveform.xAxisPencil = xAxisPencil;
+
         //define pencil to draw bar
         barPencilFirst.setStrokeWidth(75);
         barPencilFirst.setColor(0xff1dcf0f);
@@ -276,6 +289,12 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.modePeak = SimpleWaveform.MODE_PEAK_PARALLEL;
         //if show peaks outline?
         simpleWaveform.showPeak = true;
+
+        //show x-axis
+        simpleWaveform.showXAxis = true;
+        xAxisPencil.setStrokeWidth(1);
+        xAxisPencil.setColor(0x88ffffff);
+        simpleWaveform.xAxisPencil = xAxisPencil;
 
         //define pencil to draw bar
         barPencilFirst.setStrokeWidth(15);
@@ -347,6 +366,12 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         //if show peaks outline?
         simpleWaveform.showPeak = true;
 
+        //show x-axis
+        simpleWaveform.showXAxis = true;
+        xAxisPencil.setStrokeWidth(1);
+        xAxisPencil.setColor(0x88ffffff);
+        simpleWaveform.xAxisPencil = xAxisPencil;
+
         //define pencil to draw bar
         barPencilFirst.setStrokeWidth(5);
         barPencilFirst.setColor(0xff1dcf0f);
@@ -411,6 +436,12 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.modePeak = SimpleWaveform.MODE_PEAK_PARALLEL;
         //if show peaks outline?
         simpleWaveform.showPeak = true;
+
+        //show x-axis
+        simpleWaveform.showXAxis = true;
+        xAxisPencil.setStrokeWidth(1);
+        xAxisPencil.setColor(0x88ffffff);
+        simpleWaveform.xAxisPencil = xAxisPencil;
 
         //define pencil to draw bar
         barPencilFirst.setStrokeWidth(15);
@@ -550,6 +581,11 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
             holder.simpleWaveform.peakPencilSecond.setStrokeWidth(5);
             holder.simpleWaveform.peakPencilSecond.setColor(0xfffeef3f);
+
+            //show x-axis
+            holder.simpleWaveform.showXAxis = true;
+            holder.simpleWaveform.xAxisPencil.setStrokeWidth(1);
+            holder.simpleWaveform.xAxisPencil.setStrokeWidth(0x88ffffff);
 
             holder.simpleWaveform.refresh();
         }
