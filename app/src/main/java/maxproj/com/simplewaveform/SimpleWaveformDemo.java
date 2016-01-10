@@ -17,11 +17,14 @@ import java.util.Random;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 public class SimpleWaveformDemo extends AppCompatActivity {
 
     Button button_switch_simple_demos;
     Button button_switch_advance_demos;
+
+    TextView demo_introduce;
 
     int simple_demo_loop = 0;
     int advance_demo_loop = 0;
@@ -41,6 +44,8 @@ public class SimpleWaveformDemo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_waveform_demo);
+
+        demo_introduce = (TextView)findViewById(R.id.demo_introduce);
 
         simpleWaveform = (SimpleWaveform) findViewById(R.id.simplewaveform);
         recycler_view = (RecyclerView)findViewById(R.id.recycler_view);
@@ -180,6 +185,8 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
         //show...
         simpleWaveform.refresh();
+
+        demo_introduce.setText("demo1");
     }
 
 
@@ -256,6 +263,8 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         };
         //show...
         simpleWaveform.refresh();
+
+        demo_introduce.setText("demo2");
     }
 
 
@@ -332,6 +341,8 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         };
         //show...
         simpleWaveform.refresh();
+
+        demo_introduce.setText("demo3");
     }
 
 
@@ -408,6 +419,8 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         };
         //show...
         simpleWaveform.refresh();
+
+        demo_introduce.setText("demo4");
     }
 
     private void demoAdvance1() {
@@ -506,6 +519,8 @@ public class SimpleWaveformDemo extends AppCompatActivity {
             }
         }).start();
 
+        demo_introduce.setText("advance demo1");
+
     }
 
     private void demoAdvance2() {
@@ -532,6 +547,8 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 //        recycler_view.scrollBy(100, 10);
         recycler_view.scrollToPosition(2);
 //        recycler_view.smoothScrollBy(100, 10);
+
+        demo_introduce.setText("advance demo2");
     }
 
     private int randomInt(int min, int max) {

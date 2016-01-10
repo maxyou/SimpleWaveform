@@ -3,37 +3,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".SimpleWaveformDemo"
-    android:gravity="center_horizontal">
+    tools:context=".SimpleWaveformDemo">
 
     <maxproj.com.simplewaveform.SimpleWaveform
         android:id="@+id/simplewaveform"
-        android:layout_margin="10dp"
-        android:padding="8dp"
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="300dp"
+        android:layout_margin="10dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:background="@color/Blue"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="300dp"
+        android:layout_margin="10dp"
+        android:background="@color/Orange"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/demo_introduce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp" />
 
     <Button
         android:id="@+id/button_switch_simple_demos"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="switch simple demo"
-        android:textAllCaps="false"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content" />
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/button_switch_advance_demos"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="switch advanced demo"
-        android:textAllCaps="false"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content" />
+        android:textAllCaps="false" />
 </LinearLayout>
