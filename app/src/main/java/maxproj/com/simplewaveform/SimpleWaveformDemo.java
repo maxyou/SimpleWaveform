@@ -175,77 +175,8 @@ public class SimpleWaveformDemo extends AppCompatActivity {
         simpleWaveform.refresh();
     }
 
+
     private void demo2() {
-
-        simpleWaveform.init();
-
-        LinkedList<Integer> ampList = new LinkedList<>();
-        //generate random data
-        for (int i = 0; i < 80; i++) {
-            ampList.add(randomInt(-50, 50));
-        }
-        simpleWaveform.setDataList(ampList);
-
-        //define bar gap
-        simpleWaveform.barGap = 30;
-
-        //define x-axis direction
-        simpleWaveform.modeDirection = SimpleWaveform.MODE_DIRECTION_LEFT_RIGHT;
-
-        //define if draw opposite pole when show bars
-        simpleWaveform.modeAmp = SimpleWaveform.MODE_AMP_ABSOLUTE;
-        //define if the unit is px or percent of the view's height
-        simpleWaveform.modeHeight = SimpleWaveform.MODE_HEIGHT_PERCENT;
-        //define where is the x-axis in y-axis
-        simpleWaveform.modeZero = SimpleWaveform.MODE_ZERO_CENTER;
-        //if show bars?
-        simpleWaveform.showBar = true;
-
-        //define how to show peaks outline
-        simpleWaveform.modePeak = SimpleWaveform.MODE_PEAK_PARALLEL;
-        //if show peaks outline?
-        simpleWaveform.showPeak = true;
-
-        //define pencil to draw bar
-        barPencilFirst.setStrokeWidth(15);
-        barPencilFirst.setColor(0xff1dcf0f);
-        simpleWaveform.barPencilFirst = barPencilFirst;
-        barPencilSecond.setStrokeWidth(15);
-        barPencilSecond.setColor(0xff1dcfcf);
-        simpleWaveform.barPencilSecond = barPencilSecond;
-
-        //define pencil to draw peaks outline
-        peakPencilFirst.setStrokeWidth(5);
-        peakPencilFirst.setColor(0xfffe2f3f);
-        simpleWaveform.peakPencilFirst = peakPencilFirst;
-        peakPencilSecond.setStrokeWidth(5);
-        peakPencilSecond.setColor(0xfffeef3f);
-        simpleWaveform.peakPencilSecond = peakPencilSecond;
-
-        //the first part will be draw by PencilFirst
-        simpleWaveform.firstPartNum = 20;
-
-        //define how to clear screen
-        simpleWaveform.clearScreenListener = new SimpleWaveform.ClearScreenListener() {
-            @Override
-            public void clearScreen(Canvas canvas) {
-                canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-            }
-        };
-        simpleWaveform.progressTouch = new SimpleWaveform.ProgressTouch() {
-            @Override
-            public void progressTouch(int progress, MotionEvent event) {
-                Log.d("", "you touch at: " + progress);
-                simpleWaveform.firstPartNum = progress;
-                simpleWaveform.refresh();
-            }
-        };
-        //show...
-        simpleWaveform.refresh();
-    }
-
-
-    private void demo3() {
 
         simpleWaveform.init();
 
@@ -294,6 +225,76 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
         //the first part will be draw by PencilFirst
         simpleWaveform.firstPartNum = 5;
+
+        //define how to clear screen
+        simpleWaveform.clearScreenListener = new SimpleWaveform.ClearScreenListener() {
+            @Override
+            public void clearScreen(Canvas canvas) {
+                canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+            }
+        };
+        simpleWaveform.progressTouch = new SimpleWaveform.ProgressTouch() {
+            @Override
+            public void progressTouch(int progress, MotionEvent event) {
+                Log.d("", "you touch at: " + progress);
+                simpleWaveform.firstPartNum = progress;
+                simpleWaveform.refresh();
+            }
+        };
+        //show...
+        simpleWaveform.refresh();
+    }
+
+
+    private void demo3() {
+
+        simpleWaveform.init();
+
+        LinkedList<Integer> ampList = new LinkedList<>();
+        //generate random data
+        for (int i = 0; i < 80; i++) {
+            ampList.add(randomInt(-50, 50));
+        }
+        simpleWaveform.setDataList(ampList);
+
+        //define bar gap
+        simpleWaveform.barGap = 30;
+
+        //define x-axis direction
+        simpleWaveform.modeDirection = SimpleWaveform.MODE_DIRECTION_LEFT_RIGHT;
+
+        //define if draw opposite pole when show bars
+        simpleWaveform.modeAmp = SimpleWaveform.MODE_AMP_ABSOLUTE;
+        //define if the unit is px or percent of the view's height
+        simpleWaveform.modeHeight = SimpleWaveform.MODE_HEIGHT_PERCENT;
+        //define where is the x-axis in y-axis
+        simpleWaveform.modeZero = SimpleWaveform.MODE_ZERO_CENTER;
+        //if show bars?
+        simpleWaveform.showBar = true;
+
+        //define how to show peaks outline
+        simpleWaveform.modePeak = SimpleWaveform.MODE_PEAK_PARALLEL;
+        //if show peaks outline?
+        simpleWaveform.showPeak = true;
+
+        //define pencil to draw bar
+        barPencilFirst.setStrokeWidth(15);
+        barPencilFirst.setColor(0xff1dcf0f);
+        simpleWaveform.barPencilFirst = barPencilFirst;
+        barPencilSecond.setStrokeWidth(15);
+        barPencilSecond.setColor(0xff1dcfcf);
+        simpleWaveform.barPencilSecond = barPencilSecond;
+
+        //define pencil to draw peaks outline
+        peakPencilFirst.setStrokeWidth(5);
+        peakPencilFirst.setColor(0xfffe2f3f);
+        simpleWaveform.peakPencilFirst = peakPencilFirst;
+        peakPencilSecond.setStrokeWidth(5);
+        peakPencilSecond.setColor(0xfffeef3f);
+        simpleWaveform.peakPencilSecond = peakPencilSecond;
+
+        //the first part will be draw by PencilFirst
+        simpleWaveform.firstPartNum = 20;
 
         //define how to clear screen
         simpleWaveform.clearScreenListener = new SimpleWaveform.ClearScreenListener() {
@@ -476,7 +477,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 
     }
 
-    public void demoAdvance2() {
+    private void demoAdvance2() {
 
         LinkedList<LinkedList<Integer>> amp_list_list = new LinkedList();
         for (int i = 0; i < 6; i++) {
@@ -502,7 +503,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
 //        recycler_view.smoothScrollBy(100, 10);
     }
 
-    public int randomInt(int min, int max) {
+    private int randomInt(int min, int max) {
 
         Random rand = new Random();
         int randomNum = rand.nextInt((max - min) + 1) + min;
@@ -511,7 +512,7 @@ public class SimpleWaveformDemo extends AppCompatActivity {
     }
 
 
-    public class RecyclerViewAdapter extends
+    private class RecyclerViewAdapter extends
             RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
         // List<LvRowFile> listItems;
         LinkedList<LinkedList<Integer>> amp_list_list;
