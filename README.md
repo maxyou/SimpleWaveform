@@ -40,7 +40,7 @@ advance demo2: embedded in horizontal recycler view<br>
 (1)Copy SimpleWaveform.java to your project and read it. Currently I don't know how to make it as a gradle module.<br>
 (2)Follow demo1~4 and advance demo1~2. Usage is very straightforward and simple.<br>
 
-Let's watch demo3 comments as an example:<br>
+Let's use demo3 as an example. please notice the comments:<br>
 
     private void demo3() {
 
