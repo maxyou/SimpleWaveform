@@ -1,27 +1,27 @@
 ﻿# SimpleWaveform
 
-标签（空格分隔）： Waveform Widget
+Waveform Widget
 
 ---
 
-SimpleWaveform is a widget to show a sequence data in waveform or bar chart.
+**SimpleWaveform** is a widget to show a sequence data in waveform or bar chart.
 
-SimpleWaveform can be highly customized:
-(1)show original positive and negetive data, or show absolute of the data for amplitude
-(2)data can be px or percent of full amplitude. Will automaticly detect its width and height in px
-(3)choose to show bar, peak outline, x-axis
-(4)choose how to connect nearby peak for outline
-(5)x-axis can be located at top/center/bottom
-(6)can set bar width and gap
-(7)all pencil can be set include bar/outline/x-axis/background
-(8)two pencil with different colors to show progress
-(9)wave from left or from right
-(10)return bar position when your finger touch waveform
+SimpleWaveform can be highly customized:<br>
+(1)show original positive and negetive data, or show absolute of the data for amplitude<br>
+(2)data can be px or percent of full amplitude. Will automaticly detect its width and height in px<br>
+(3)choose to show bar, peak outline, x-axis<br>
+(4)choose how to connect nearby peak for outline<br>
+(5)x-axis can be located at top/center/bottom<br>
+(6)can set bar width and gap<br>
+(7)all pencil can be set include bar/outline/x-axis/background<br>
+(8)two pencil with different colors to show progress<br>
+(9)wave from left or from right<br>
+(10)return bar position when your finger touch waveform<br>
 
 
-often used:
-(1)show sound amplitude when record sound. ref to advance demo1
-(2)Embedded in horizontal recycler view to show a very long sound waveform. ref to advance demo2
+## often used:
+(1)show sound amplitude when record sound. ref to advance demo1<br>
+(2)Embedded in horizontal recycler view to show a very long sound waveform. ref to advance demo2<br>
 
 demo1: positive and negative data
 ![此处输入图片的描述][1]
@@ -36,11 +36,11 @@ advance demo1: generate recorder amplitude bar
 advance demo2: embedded in horizontal recycler view
 ![此处输入图片的描述][6]
 
-usage:
-(1)Copy SimpleWaveform.java to your project and read it. Currently I don't know how to make it as a gradle module.
-(2)Follow demo1~4 and advance demo1~2. Usage is very straightforward and simple.
+## usage:
+(1)Copy SimpleWaveform.java to your project and read it. Currently I don't know how to make it as a gradle module.<br>
+(2)Follow demo1~4 and advance demo1~2. Usage is very straightforward and simple.<br>
 
-Let's watch demo3 comments as an example:
+Let's watch demo3 comments as an example:<br>
 
     private void demo3() {
 
