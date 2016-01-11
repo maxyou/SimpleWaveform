@@ -23,18 +23,18 @@ SimpleWaveform can be highly customized:<br>
 (1)show sound amplitude when record sound. ref to advance demo1<br>
 (2)Embedded in horizontal recycler view to show a very long sound waveform. ref to advance demo2<br>
 
-demo1: positive and negative data
-![此处输入图片的描述][1]
-demo2: bar chart
-![此处输入图片的描述][2]
-demo3: amplitude bar
-![此处输入图片的描述][3]
-demo4: sound wave
-![此处输入图片的描述][4]
-advance demo1: generate recorder amplitude bar
-![此处输入图片的描述][5]
-advance demo2: embedded in horizontal recycler view
-![此处输入图片的描述][6]
+demo1: positive and negative data<br>
+![此处输入图片的描述][1]<br>
+demo2: bar chart<br>
+![此处输入图片的描述][2]<br>
+demo3: amplitude bar<br>
+![此处输入图片的描述][3]<br>
+demo4: sound wave<br>
+![此处输入图片的描述][4]<br>
+advance demo1: generate recorder amplitude bar<br>
+![此处输入图片的描述][5]<br>
+advance demo2: embedded in horizontal recycler view<br>
+![此处输入图片的描述][6]<br>
 
 ## usage:
 (1)Copy SimpleWaveform.java to your project and read it. Currently I don't know how to make it as a gradle module.<br>
