@@ -1,1 +1,131 @@
-# SimpleWaveform
+﻿# SimpleWaveform
+
+标签（空格分隔）： Waveform Widget
+
+---
+
+SimpleWaveform is a widget to show a sequence data in waveform or bar chart.
+
+SimpleWaveform can be highly customized:
+(1)show original positive and negetive data, or show absolute of the data for amplitude
+(2)data can be px or percent of full amplitude. Will automaticly detect its width and height in px
+(3)choose to show bar, peak outline, x-axis
+(4)choose how to connect nearby peak for outline
+(5)x-axis can be located at top/center/bottom
+(6)can set bar width and gap
+(7)all pencil can be set include bar/outline/x-axis/background
+(8)two pencil with different colors to show progress
+(9)wave from left or from right
+(10)return bar position when your finger touch waveform
+
+
+often used:
+(1)show sound amplitude when record sound. ref to advance demo1
+(2)Embedded in horizontal recycler view to show a very long sound waveform. ref to advance demo2
+
+demo1: positive and negative data
+![此处输入图片的描述][1]
+demo2: bar chart
+![此处输入图片的描述][2]
+demo3: amplitude bar
+![此处输入图片的描述][3]
+demo4: sound wave
+![此处输入图片的描述][4]
+advance demo1: generate recorder amplitude bar
+![此处输入图片的描述][5]
+advance demo2: embedded in horizontal recycler view
+![此处输入图片的描述][6]
+
+usage:
+(1)Copy SimpleWaveform.java to your project and read it. Currently I don't know how to make it as a gradle module.
+(2)Follow demo1~4 and advance demo1~2. Usage is very straightforward and simple.
+
+Let's watch demo3 comments as an example:
+
+    private void demo3() {
+
+        simpleWaveform.init();//clear and use default setting
+
+        LinkedList<Integer> ampList = new LinkedList<>();
+        //generate random data
+        for (int i = 0; i < 80; i++) {
+            ampList.add(randomInt(-50, 50));
+        }
+        simpleWaveform.setDataList(ampList);//input data to show
+
+        //define bar gap
+        simpleWaveform.barGap = 30;
+
+        //define x-axis direction
+        simpleWaveform.modeDirection = SimpleWaveform.MODE_DIRECTION_LEFT_RIGHT;
+
+        //define if draw opposite pole when show bars
+        simpleWaveform.modeAmp = SimpleWaveform.MODE_AMP_ABSOLUTE;
+        //define if the unit is px or percent of the view's height
+        simpleWaveform.modeHeight = SimpleWaveform.MODE_HEIGHT_PERCENT;
+        //define where is the x-axis in y-axis
+        simpleWaveform.modeZero = SimpleWaveform.MODE_ZERO_CENTER;
+        //if show bars?
+        simpleWaveform.showBar = true;
+
+        //define how to show peaks outline
+        simpleWaveform.modePeak = SimpleWaveform.MODE_PEAK_PARALLEL;
+        //if show peaks outline?
+        simpleWaveform.showPeak = true;
+
+        //show x-axis
+        simpleWaveform.showXAxis = true;
+        xAxisPencil.setStrokeWidth(1);
+        xAxisPencil.setColor(0x88ffffff);//the first 0x88 is transparency, the next 0xffffff is color
+        simpleWaveform.xAxisPencil = xAxisPencil;
+
+        //define pencil to draw bar
+        barPencilFirst.setStrokeWidth(15);
+        barPencilFirst.setColor(0xff1dcf0f);
+        simpleWaveform.barPencilFirst = barPencilFirst;
+        barPencilSecond.setStrokeWidth(15);
+        barPencilSecond.setColor(0xff1dcfcf);
+        simpleWaveform.barPencilSecond = barPencilSecond;
+
+        //define pencil to draw peaks outline
+        peakPencilFirst.setStrokeWidth(5);
+        peakPencilFirst.setColor(0xfffe2f3f);
+        simpleWaveform.peakPencilFirst = peakPencilFirst;
+        peakPencilSecond.setStrokeWidth(5);
+        peakPencilSecond.setColor(0xfffeef3f);
+        simpleWaveform.peakPencilSecond = peakPencilSecond;
+
+        //the first part will be draw by PencilFirst
+        simpleWaveform.firstPartNum = 20;//first 20 bars will be draw by first pencil
+
+        //define how to clear screen
+        simpleWaveform.clearScreenListener = new SimpleWaveform.ClearScreenListener() {
+            @Override
+            public void clearScreen(Canvas canvas) {
+                canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+            }
+        };
+        // set touch listener
+        simpleWaveform.progressTouch = new SimpleWaveform.ProgressTouch() {
+            @Override
+            public void progressTouch(int progress, MotionEvent event) {
+                Log.d("", "you touch at: " + progress);
+                simpleWaveform.firstPartNum = progress;//set touch position back to its progress
+                simpleWaveform.refresh();
+            }
+        };
+        //show...
+        simpleWaveform.refresh();
+
+        demo_introduce.setText("demo3: amplitude bar");
+    }
+
+
+
+
+  [1]: https://raw.githubusercontent.com/maxyou/SimpleWaveform/master/demo1.PNG
+  [2]: https://raw.githubusercontent.com/maxyou/SimpleWaveform/master/demo2.PNG
+  [3]: https://raw.githubusercontent.com/maxyou/SimpleWaveform/master/demo3.PNG
+  [4]: https://raw.githubusercontent.com/maxyou/SimpleWaveform/master/demo4.PNG
+  [5]: https://raw.githubusercontent.com/maxyou/SimpleWaveform/master/advancedemo1.gif
+  [6]: https://raw.githubusercontent.com/maxyou/SimpleWaveform/master/advancedemo2.gif
