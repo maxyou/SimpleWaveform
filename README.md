@@ -24,6 +24,7 @@ SimpleWaveform can be highly customized:<br>
 (2)Embedded in horizontal recycler view to show a very long sound waveform. ref to advance demo2<br>
 
 [demo apk download from github](https://github.com/maxyou/SimpleWaveform/raw/master/app/app-release.apk)
+[demo apk download from googleplay](https://play.google.com/store/apps/details?id=maxproj.com.simplewaveform)
 
 demo1: positive and negative data<br>
 ![此处输入图片的描述][1]<br>
