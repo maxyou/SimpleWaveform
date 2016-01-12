@@ -43,8 +43,9 @@ advance demo2: embedded in horizontal recycler view<br>
 Let's use demo3 as an example. please notice the comments:<br>
 
     private void demo3() {
-
-        simpleWaveform.init();//clear and use default setting
+        
+        //restore default setting, you can omit all following setting and goto the final refresh() show
+        simpleWaveform.init();
 
         LinkedList<Integer> ampList = new LinkedList<>();
         //generate random data
