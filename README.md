@@ -121,7 +121,11 @@ Let's use demo3 as an example. please notice the comments:<br>
         demo_introduce.setText("demo3: amplitude bar");
     }
 
-
+    <maxproj.com.simplewaveform.SimpleWaveform
+        android:id="@+id/simplewaveform"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_margin="10dp" />
 
 
   [1]: https://raw.githubusercontent.com/maxyou/SimpleWaveform/master/demo1.PNG
