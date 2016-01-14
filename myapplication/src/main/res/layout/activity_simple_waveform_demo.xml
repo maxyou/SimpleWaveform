@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".SimpleWaveformDemo">
 
-    <maxproj.com.simplewaveform.SimpleWaveform
+    <com.maxproj.simplewaveform.SimpleWaveform
         android:id="@+id/simplewaveform"
         android:layout_width="match_parent"
         android:layout_height="300dp"

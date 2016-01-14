@@ -1,4 +1,4 @@
-package maxproj.com.simplewaveform;
+package com.maxproj.myapplication;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -6,6 +6,8 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,9 +17,10 @@ import android.widget.Button;
 import java.util.LinkedList;
 import java.util.Random;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.widget.TextView;
+
+import com.maxproj.simplewaveform.SimpleWaveform;
 
 public class SimpleWaveformDemo extends AppCompatActivity {
 

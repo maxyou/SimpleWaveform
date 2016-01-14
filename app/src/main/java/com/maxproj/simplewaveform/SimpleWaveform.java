@@ -1,4 +1,4 @@
-package maxproj.com.simplewaveform;
+package com.maxproj.simplewaveform;
 
 import android.content.Context;
 import android.graphics.Canvas;

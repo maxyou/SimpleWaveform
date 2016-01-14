@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <maxproj.com.simplewaveform.SimpleWaveform
+    <com.maxproj.simplewaveform.SimpleWaveform
         android:id="@+id/simplewaveform_row"
         android:layout_width="300dp"
         android:layout_height="300dp"
