@@ -131,6 +131,10 @@ Let's use demo3 as an example. please notice the comments:<br>
         android:layout_margin="10dp" />
 
 
+
+## License<br>
+under [MIT License](http://www.opensource.org/licenses/MIT).
+
   [1]: https://raw.githubusercontent.com/maxyou/SimpleWaveform/master/demo1.PNG
   [2]: https://raw.githubusercontent.com/maxyou/SimpleWaveform/master/demo2.PNG
   [3]: https://raw.githubusercontent.com/maxyou/SimpleWaveform/master/demo3.PNG
