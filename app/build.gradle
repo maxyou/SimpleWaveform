@@ -1,15 +1,18 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
 
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
-
+    resourcePrefix "simplewaveform__"
     defaultConfig {
 
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
     }
     buildTypes {
         release {
@@ -22,4 +25,71 @@ android {
 dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
+}
+def siteUrl = 'https://github.com/maxyou/SimpleWaveform'
+def gitUrl = 'https://github.com/maxyou/SimpleWaveform.git'
+group = "com.maxproj.simplewavefom"
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                // Add your description here
+                name 'Simple Waveform'
+                url siteUrl
+                // Set your license
+                licenses {
+                    license {
+                        name 'MIT'
+                        url 'http://www.opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'maxyou'
+                        name 'Hongyu You'
+                        email 'hyyou2010@gmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = "SimpleWaveform"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["MIT"]
+        publish = true
+    }
 }
