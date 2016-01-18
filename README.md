@@ -47,7 +47,7 @@ Install by gradle<br>
         compile 'com.maxproj.simplewaveform:app:1.0.0'
     }
 
-Or directly copy SimpleWaveform.java to your project.<br>
+Define a SimpleWaveform in layout<br>
 
     <com.maxproj.simplewaveform.SimpleWaveform
         android:id="@+id/simplewaveform"
