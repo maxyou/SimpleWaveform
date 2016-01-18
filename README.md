@@ -48,6 +48,12 @@ Install by gradle<br>
     }
 
 Or directly copy SimpleWaveform.java to your project.<br>
+
+    <com.maxproj.simplewaveform.SimpleWaveform
+        android:id="@+id/simplewaveform"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_margin="10dp" />
  
 SimpleWaveformDemo.java include demo1~4 and advance demo1~2 in. Let's use demo3 as an example. please notice the comments:<br>
 
@@ -130,11 +136,6 @@ SimpleWaveformDemo.java include demo1~4 and advance demo1~2 in. Let's use demo3 
         demo_introduce.setText("demo3: amplitude bar");
     }
 
-    <com.maxproj.simplewaveform.SimpleWaveform
-        android:id="@+id/simplewaveform"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_margin="10dp" />
 
 
 
