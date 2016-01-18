@@ -41,13 +41,13 @@ advance demo2: embedded in horizontal recycler view<br>
 
 ## usage:
 
-Install by gradle<br>    
+Install by gradle:<br>    
 
     dependencies {
         compile 'com.maxproj.simplewaveform:app:1.0.0'
     }
 
-Define a SimpleWaveform in layout<br>
+Define a SimpleWaveform in layout:<br>
 
     <com.maxproj.simplewaveform.SimpleWaveform
         android:id="@+id/simplewaveform"
