@@ -55,7 +55,7 @@ Define a SimpleWaveform in layout:<br>
         android:layout_height="300dp"
         android:layout_margin="10dp" />
  
-SimpleWaveformDemo.java include demo1~4 and advance demo1~2 in. Let's use demo3 as an example. please notice the comments:<br>
+[SimpleWaveformDemo.java](https://github.com/maxyou/SimpleWaveform/blob/master/myapplication/src/main/java/com/maxproj/myapplication/SimpleWaveformDemo.java) in myapplication directory include demo1,2,3,4 and advance demo1,2. Let's use demo3 as an example. please notice the comments:<br>
 
     private void demo3() {
         
